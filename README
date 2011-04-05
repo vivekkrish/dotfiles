@@ -1,0 +1,14 @@
+## My personal dotfiles - vivekkrish
+
+# Bash related dotfiles
+bash_aliases
+bash_profile
+bashrc
+login
+profile
+
+# Screen configuration
+screenrc
+
+# Vim configuration
+vimrc

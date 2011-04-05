@@ -125,4 +125,4 @@ export PCODE="04048"
 
 # Import Workflow settings
 WORKFLOW=/usr/local/devel/ANNOTATION/workflow-3.0B18/exec_env.bash
-if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact jinman@jcvi.org."; fi
+if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact Workflow admin."; fi
