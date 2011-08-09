@@ -18,16 +18,18 @@ alias ..='cd ..'
 alias cls='clear; ls -lh'
 alias remove='rm -rfv'
 alias hist='history | less'
-alias less='less -S'
+alias vless='vim -u /usr/share/vim/vim70/macros/less.vim'
 alias les='less'    # typo!
 alias calc='bc'
+alias list='~/bin/list'
 alias grep='grep --color=auto'
 alias vim='vim -p'
 alias vi='vim -p'
 alias topv='top -c -u vkrishna'
 alias exot='exit'   # typo!
 alias mkexec='chmod +x *.pl *.py *.sh'
-alias igv="java -Xmx1500m  -jar /local/devel/ANNOTATION/vkrishna/IGV_1.5.53/igv.jar"
+alias igv='java -Xmx1500m  -jar /local/devel/ANNOTATION/vkrishna/IGV_1.5.53/igv.jar'
+alias py='python'
 
 # Aliases to most frequently used folders
 alias mtg3='cd /usr/local/projects/MTG3'
@@ -53,3 +55,14 @@ alias glock='gnome-screensaver-command --lock'
 alias klock='kdesktop_lock'
 alias df='df -k'
 alias sybprod='declare -x DSQUERY=SYBPROD'
+
+# Python aliases (Haibao's code base)
+alias fasta='python -m jcvi.formats.fasta'
+alias fastq='python -m jcvi.formats.fastq'
+alias agp='python -m jcvi.formats.agp'
+alias entrez='python -m jcvi.apps.entrez'
+alias grid='python -m jcvi.apps.grid'
+
+# Server login aliases
+alias spike='ssh spike.jcvi.org'
+alias lserver="ssh lserver1.jcvi.org"

@@ -50,6 +50,7 @@ set statusline+=%-3.3n\                      " buffer number
 set statusline+=%f\                          " filename
 set statusline+=%h%m%r%w                     " status flags
 set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type
+set statusline+=\ %{fugitive#statusline()}     " indicate current git branch
 set statusline+=%=                           " right align remainder
 set statusline+=0x%-8B                       " character value
 set statusline+=%-14(%l,%c%V%)               " line,  character
@@ -82,7 +83,7 @@ set smarttab
 set expandtab					" spaces are better than tabs
 set autoindent                  " copy indent from current line
 set smartindent                 " smart autoindenting when starting a new line
-set shiftwidth=2                " number of spaces to use for each step of indent
+set shiftwidth=4                " number of spaces to use for each step of indent
 set showcmd                     " display incomplete commands
 set tabstop=4                   " number of spaces that a <Tab> counts for
 set autoread                    " read open files again when changed outside Vim
@@ -107,7 +108,7 @@ set backspace=indent,eol,start
 "-------------------------------------------------------------------------------
 "  highlight paired brackets
 "-------------------------------------------------------------------------------
-"highlight MatchParen ctermbg=blue guibg=lightyellow
+highlight MatchParen ctermbg=blue guibg=lightyellow
 "
 "-------------------------------------------------------------------------------
 " highlight word under cursor
@@ -121,7 +122,7 @@ au CursorMoved <buffer> exe 'match flicker /\V\<'.escape(expand('<cword>'), '/')
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 "
 "-------------------------------------------------------------------------------
-" Save the current view (when closing file) and reload (when opening
+" Save the current view (when closing file) and reload (when opening)
 "-------------------------------------------------------------------------------
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
@@ -173,9 +174,9 @@ inoremap  s/ s///g<left><left><left>
 "-------------------------------------------------------------------------------
 " The current directory is the directory of the file in the current window.
 "-------------------------------------------------------------------------------
-"if has("autocmd")
-"  autocmd BufEnter * :lchdir %:p:h
-"endif
+if has("autocmd")
+  autocmd BufEnter * :lchdir %:p:h
+endif
 "
 "-------------------------------------------------------------------------------
 " Fast switching between buffers
@@ -195,25 +196,25 @@ nnoremap  <C-q>    :wqall<CR>
 "-------------------------------------------------------------------------------
 " Shortcuts for Perltidy
 "-------------------------------------------------------------------------------
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm noremap <C-F9> :Tidy<CR>
+autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
+autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi noremap <C-F9> :Tidy<CR>
 "-------------------------------------------------------------------------------
 "re-map rcsvers.vim keys
 "-------------------------------------------------------------------------------
-map <F8> \rlog
-map <F5> \older
-map <F6> \newer
+"map <F8> \rlog
+"map <F5> \older
+"map <F6> \newer
 "
 "-------------------------------------------------------------------------------
 "rcsvers.vim Options
 "-------------------------------------------------------------------------------
-let g:rvMode = 1
-let g:rvRlogOptions = '-zLT'
-let g:rvSaveSuffixType = 1
-let g:rvSaveDirectoryType = 1
-let g:rvSaveDirectoryName = '~/.rcsfiles/'
-let g:rvSaveIfPreviousRCSFileExists = 0
-let g:rvIncludeExpression = '\c\.pl\|\c\.spl\|\c\.cgi\|\c\.php\|\c\.py\|\c\.js\|\c\.conf\|\c\.ini\|\chtml\|\c\.tmpl\|\c\.java\|\c\.c\|\c\.cpp\|\c\.vim\|\crc$'
+"let g:rvMode = 1
+"let g:rvRlogOptions = '-zLT'
+"let g:rvSaveSuffixType = 1
+"let g:rvSaveDirectoryType = 1
+"let g:rvSaveDirectoryName = '~/.rcsfiles/'
+"let g:rvSaveIfPreviousRCSFileExists = 0
+"let g:rvIncludeExpression = '\c\.pl\|\c\.spl\|\c\.cgi\|\c\.php\|\c\.py\|\c\.js\|\c\.conf\|\c\.ini\|\chtml\|\c\.tmpl\|\c\.java\|\c\.c\|\c\.cpp\|\c\.vim\|\crc$'
 "
 "-------------------------------------------------------------------------------
 " helpful shortcuts
@@ -223,3 +224,9 @@ map ,p :set paste<CR>i
 map ,i :set nopaste<CR>i
 map ,x :x<CR>
 map ,q :q!<CR>
+"-------------------------------------------------------------------------------
+" solarize colorscheme
+"-------------------------------------------------------------------------------
+"syntax enable
+"colorscheme solarized
+"set background=light

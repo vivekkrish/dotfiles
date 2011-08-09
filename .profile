@@ -33,6 +33,7 @@ export LC_COLLATE="C"
 exists lesspipe.sh && \
     export LESSOPEN="|lesspipe.sh %s"
 export LESS="-i -M -R -W -S -x4"
+export PAGER=less
 export GREP_COLOR=31
 #export GREP_OPTIONS="--color=always"
 export NOSPLASH=1
@@ -94,19 +95,23 @@ export ANNOTATION_DIR=/usr/local/annotation
 
 # use EGC
 export ANNOT_DEVEL=/usr/local/devel/ANNOTATION
-export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
+#export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
+export EGC_SCRIPTS=${ANNOT_DEVEL}/vkrishna/euk_genome_control
 export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities/bin
 #export EUK_MODULES=${ANNOT_DEVEL}/Euk_modules/bin
 export EUK_MODULES=/usr/local/devel/ANNOTATION/vkrishna/Euk_modules
 
 #------------------------------------------------------------------------------
 # Put your additions/changes below
-export PATH=/opt/www/maize-bisque/bin:/export/firefox:/export/thunderbird:/usr/local/genome/bin:/usr/local/devel/ANNOTATION/euk_genome_control/bin:/usr/local/devel/ANNOTATION/EGC_utilities:/usr/local/devel/ANNOTATION/EGC_utilities/bin:/usr/local/devel/ANNOTATION/vkrishna/Euk_modules:/usr/local/devel/ANNOTATION/vkrishna/bin:/home/vkrishna/.perl-shell:$PATH:/export/bin:/usr/local/projects/tgi/bin:/home/sgeworker/bin:/usr/sbin:/sbin
-export LD_LIBRARY_PATH=/usr/local/packages/mysql/lib/mysql:/opt/www/maize-bisque/lib:/export/lib:/home/vkrishna/lib:$LD_LIBRARY_PATH
+export PATH=/opt/www/maize-bisque/bin:/export/firefox:/export/thunderbird:/usr/local/genome/bin:/usr/local/devel/ANNOTATION/euk_genome_control/bin:/usr/local/devel/ANNOTATION/EGC_utilities:/usr/local/devel/ANNOTATION/EGC_utilities/bin:/usr/local/devel/ANNOTATION/vkrishna/Euk_modules:/usr/local/devel/ANNOTATION/vkrishna/bin:/home/vkrishna/.perl-shell:/home/vkrishna/bin/x86_64:$PATH:/export/bin:/usr/local/projects/tgi/bin:/home/sgeworker/bin:/usr/sbin:/sbin
+export LD_LIBRARY_PATH=/usr/local/packages/mysql/lib/mysql:/opt/www/maize-bisque/lib:/home/vkrishna/lib:/export/lib:$LD_LIBRARY_PATH
 export LD_RUN_PATH=/opt/www/maize-bisque/lib:/opt/www/maize-bisque/bisque/bqenv/lib/python2.5/site-packages:/opt/www/maize-bisque/lib/python2.5/site-packages
-export PYTHONPATH=/opt/www/maize-bisque/bisque/bqenv/lib/python2.5/site-packages:/export/bcbio/lib/python2.6/site-packages
 export MYSQLINC=/usr/local/packages/mysql/include/mysql
 export MYSQLLIBS="/usr/local/packages/mysql/lib/mysql/libmysqlclient.a -lz"
+
+# Programming specific ENV variables
+export PERL5LIB=/home/vkrishna/lib:/home/vkrishna/git.local/jcvi/db/lib
+export PYTHONPATH=/home/vkrishna/git:/opt/www/maize-bisque/bisque/bqenv/lib/python2.5/site-packages:/home/vkrishna/lib/python2.6/site-packages
 
 # Medicago/Annotation specific
 export GBROWSE=/usr/local/devel/ANNOTATION/vkrishna/GBrowse
@@ -117,6 +122,8 @@ export MTG4=/usr/local/projects/MTG4
 export SVNHOME="http://isvn.tigr.org/ANNOTATION"
 export TZ="EST5EDT"
 export LOGNAME="vkrishna"
+export MACHTYPE="x86_64"
+export LC_ALL="C"
 
 # Import CentOS grid settings
 SGE=/usr/local/sge_current/jcvi/common/settings.sh
@@ -125,4 +132,7 @@ export PCODE="04048"
 
 # Import Workflow settings
 WORKFLOW=/usr/local/devel/ANNOTATION/workflow-3.0B18/exec_env.bash
-if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact Workflow admin."; fi
+if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact jinman@jcvi.org."; fi
+
+# Use java160 by default
+use java160

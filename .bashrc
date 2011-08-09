@@ -39,7 +39,7 @@ bind '"\e[B":history-search-forward'
 
 # don't put duplicate lines in the history
 export HISTCONTROL=ignoreboth:erasedups    # ignore and erase duplicate entries
-           
+
 # big big history
 export HISTSIZE=100000
 
@@ -58,6 +58,7 @@ if [ -f "$HOME/.bash_aliases" ]; then
   source $HOME/.bash_aliases
 fi
 
+# Helpful bash functions
 function extract()
 {
     if [ -f "$1" ] ; then
@@ -81,9 +82,114 @@ function extract()
     fi
 }
 
+function psgrep {
+  ps -ef | grep $1 | grep -v -P "grep.*$1"
+}
+
+# Shows a “pretty” directory tree from the current directory downward.
+tree ()
+{
+  find . | sed -e 's/[^\/]*\//|—-/g' -e 's/—- |/ |/g' | $PAGER
+}
+
+# find a string in a set of files
+fstr () {
+  if [ $# = 0 ]; then
+    echo "Usage: fstr \"pattern\" [files]"
+    return;
+  fi
+  SMSO=$(tput smso)
+  RMSO=$(tput rmso)
+  find . -maxdepth 1 -name "${2:-*}" -type f -print | xargs grep -sin "$1" | sed "s/$1/$SMSO$1$RMSO/gI"
+}
+
+#Search google
+google ()
+{
+  w3m "http://www.google.com/search?q=$1";
+}
+
+# move filenames to lowercase
+lc ()
+{
+  for file ; do
+    filename=${file##*/}
+    case “$filename” in
+      */*) dirname==${file%/*} ;;
+      *) dirname=.;;
+    esac
+    nf=$(echo $filename | tr A-Z a-z)
+    newname=”${dirname}/${nf}”
+    if [ "$nf" != "$filename" ]; then
+      mv “$file” “$newname”
+      echo “lc: $file –> $newname”
+    else
+      echo “lc: $file not changed.”
+    fi
+  done
+}
+
+# swap 2 filenames around
+swap ()
+{
+  local TMPFILE="tmp.$$"
+  cp -p $1 $TMPFILE
+  cp -p $2 $1
+  cp -p $TMPFILE $2
+  rm $TMPFILE
+}
+
+# view scripts with syntax highlighting
+v ()
+{
+  if [ $# -eq 0 -o $# -gt 1 ]
+  then
+    echo "v - view script files with syntax highlighting"
+    echo "Usage: v [file]"
+    return;
+  elif [ ! -f $1 ]
+  then
+    echo "v: $1: No such file or directory"
+    return;
+  fi
+  /home/vkrishna/bin/pygmentize $1 | less
+}
+
+# slick ps output for my processes
+myps ()
+{
+  /bin/ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command;
+}
+
+# print the header (the first line of input)
+# and then run the specified command on the body (the rest of the input)
+# use it in a pipeline, e.g. ps | body grep somepattern
+body() {
+  IFS= read -r header
+  printf '%s\n' "$header"
+  "$@"
+}
+
 # Set the prompt PS1 variable
-#PS1="\[\e[34;1m\]\u\[\e[0m\]@\[\e[31;1m\]\h:\[\e[0m\]\W$ \[\e[0m\]"
 PS1="\[\e[34;1m\]\u\[\e[0m\]@\[\e[31;1m\]\h:\[\e[0m\]\W $ "
+#PS1="\[\e[34;1m\]\u\[\e[0m\]@\[\e[31;1m\]\h:\[\e[0m\]\W$ \[\e[0m\]"
+
+#——————————————————————————
+# Completion.
+#——————————————————————————
+complete -A alias alias unalias
+complete -A command which
+complete -A export export printenv
+complete -A hostname ssh telnet ftp ncftp ping dig nmap
+complete -A helptopic help
+complete -A job -P ‘%’ fg bg jobs
+complete -A setopt set
+complete -A shopt shopt
+complete -A signal kill killall
+complete -A user su userdel passwd
+complete -A group groupdel groupmod newgrp
+complete -A directory cd rmdir
+complete -f -X '!*.@(gif|GIF|jpg|JPG|jpeg|JPEG|png|PNG|xcf)' gimp
 
 # Force the umask setting
 umask 002
