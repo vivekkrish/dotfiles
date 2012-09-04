@@ -1,11 +1,6 @@
 # Code for Login Sessions Only
 use () { eval `/usr/local/packages/usepackage/bin/usepackage -b $*` ; }
 
-# Custom JCVI login banner
-if [ -f "$HOME/.login" ]; then
-  . $HOME/.login
-fi
-
 #-------------------------#
 # BASE - UTILITY          #
 #-------------------------#
@@ -44,11 +39,11 @@ export EDITOR=vim VISUAL=vim
 # usepackage derived variables #
 #------------------------------#
 # use GLOBAL
+export PATH=/usr/local/common:/usr/lib64/qt-3.3/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/opt/real/RealPlayer
+export MANPATH=/usr/local/man:/usr/local/common/man:/usr/man:/usr/share/man:/usr/X11R6/man:/opt/gnome/share/man:/usr/openwin/man:$MANPATH
 export HOST="`uname -n`"
 export GLOBAL_PATH=/usr/local/global.files
 export PRINTER="`cat ~/.defaultprinter`"
-export PATH=~/bin:/usr/local/bin:/usr/local/common:/usr/bin:/bin:$PATH
-export MANPATH=/usr/local/man:/usr/local/common/man:/usr/man:/usr/share/man:/usr/X11R6/man:/opt/gnome/share/man:/usr/openwin/man:$MANPATH
 export WWW_HOME="http://www.jcvi.org"
 export TITLE="${USER}@$HOST%"
 export OSVERSION="`uname -r`"
@@ -75,10 +70,6 @@ export PHRED_PARAMETER_FILE=/usr/local/etc/PhredPar/phredpar.dat
 # use tmake
 export TMAKEPATH=/usr/local/packages/tmake/lib/linux-g++
 
-# use hmm
-export HMMER_NCPU="1"
-export HMM_SCRIPTS=/usr/local/devel/ANNOTATION/hmm/bin
-
 # use polybaye
 export POLYBAYES_LIB=/usr/local/packages/PolyBayes_3_0/lib
 
@@ -95,29 +86,61 @@ export ANNOTATION_DIR=/usr/local/annotation
 
 # use EGC
 export ANNOT_DEVEL=/usr/local/devel/ANNOTATION
-#export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
 export EGC_SCRIPTS=${ANNOT_DEVEL}/vkrishna/euk_genome_control
-export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities/bin
-#export EUK_MODULES=${ANNOT_DEVEL}/Euk_modules/bin
-export EUK_MODULES=/usr/local/devel/ANNOTATION/vkrishna/Euk_modules
+export EGC_UTILITIES=${ANNOT_DEVEL}/vkrishna/EGC_utilities/bin
+export EUK_MODULES=${ANNOT_DEVEL}/vkrishna/Euk_modules
+
+# use hmm
+export HMMER_NCPU="1"
+export HMM_SCRIPTS=${ANNOT_DEVEL}/hmm/bin
+
+# emboss env
+#export EMBOSS_ACDROOT=/usr/local/packages/EMBOSS/share/EMBOSS/acd
+#export PLPLOT_LIB=/usr/local/packages/EMBOSS/share/EMBOSS
+#export EMBOSS_DATA=/usr/local/packages/EMBOSS/share/EMBOSS/data
+
+gnuplot=/usr/local/packages/gnuplot-4.2.6/bin/gnuplot
 
 #------------------------------------------------------------------------------
 # Put your additions/changes below
-export PATH=/opt/www/maize-bisque/bin:/export/firefox:/export/thunderbird:/usr/local/genome/bin:/usr/local/devel/ANNOTATION/euk_genome_control/bin:/usr/local/devel/ANNOTATION/EGC_utilities:/usr/local/devel/ANNOTATION/EGC_utilities/bin:/usr/local/devel/ANNOTATION/vkrishna/Euk_modules:/usr/local/devel/ANNOTATION/vkrishna/bin:/home/vkrishna/.perl-shell:/home/vkrishna/bin/x86_64:$PATH:/export/bin:/usr/local/projects/tgi/bin:/home/sgeworker/bin:/usr/sbin:/sbin
-export LD_LIBRARY_PATH=/usr/local/packages/mysql/lib/mysql:/opt/www/maize-bisque/lib:/home/vkrishna/lib:/export/lib:$LD_LIBRARY_PATH
-export LD_RUN_PATH=/opt/www/maize-bisque/lib:/opt/www/maize-bisque/bisque/bqenv/lib/python2.5/site-packages:/opt/www/maize-bisque/lib/python2.5/site-packages
+export PATH=.:/export/firefox:/export/thunderbird:/usr/local/genome/bin:${EGC_UTILITIES}:${EUK_MODULES}:${EGC_SCRIPTS}:/usr/local/scratch/EUK/vkrishna/bin:${HOME}/bin/eval:${HOME}/bin/icommands:/export/bin:${HOME}/.perl-shell:${HOME}/bin/x86_64:${HOME}/bin:$PATH:/home/sgeworker/bin:/usr/sbin:/sbin
+##PATH=/usr/local/projects/tgi/bin:
+
+export LD_LIBRARY_PATH=/usr/local/scratch/EUK/vkrishna/lib:${HOME}/lib:/usr/local/lib:/export/lib:/usr/local/packages/postgresql/lib/:/usr/local/packages/bzip2/lib:/usr/local/packages/gcc-4.6.2/lib64:/usr/local/packages/mysql/lib/mysql:$LD_LIBRARY_PATH
 export MYSQLINC=/usr/local/packages/mysql/include/mysql
 export MYSQLLIBS="/usr/local/packages/mysql/lib/mysql/libmysqlclient.a -lz"
+export PKG_CONFIG_PATH=/usr/local/packages/glib/lib/pkgconfig:/usr/lib/pkgconfig
 
 # Programming specific ENV variables
-export PERL5LIB=/home/vkrishna/lib:/home/vkrishna/git.local/jcvi/db/lib
-export PYTHONPATH=/home/vkrishna/git:/opt/www/maize-bisque/bisque/bqenv/lib/python2.5/site-packages:/home/vkrishna/lib/python2.6/site-packages
+export PERL5LIB=${HOME}/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}:${HOME}/lib/eval:${ANNOT_DEVEL}/iprscan/iprscan_v4.7/lib
+export PYTHONPATH=/usr/local/packages/python/lib/python2.6/site-packages
+
+if [ $HOST == "spike.jcvi.org" ]; then
+    export BQVERSION="bisque-0.5.0"
+    export BISQUE_ROOT=/opt/www/maize-bisque
+    export BQENV_DIR=${BQVERSION}/bqenv
+    export PATH=${BISQUE_ROOT}/bin:${BISQUE_ROOT}/${BQENV_DIR}/bin:$PATH
+    export LD_LIBRARY_PATH=${BISQUE_ROOT}/lib:$LD_LIBRARY_PATH
+    export LD_RUN_PATH=${BISQUE_ROOT}/lib:$LD_RUN_PATH
+    export PYTHONPATH=${BISQUE_ROOT}/lib/python2.6/site-packages:${BISQUE_ROOT}/bisque-0.5.0/bqenv/lib/python2.6/site-packages:$PYTHONPATH
+else
+    export PYTHONPATH=${HOME}/git:$PYTHONPATH:${HOME}/lib/python2.6/site-packages
+fi
 
 # Medicago/Annotation specific
-export GBROWSE=/usr/local/devel/ANNOTATION/vkrishna/GBrowse
-export MTG3=/usr/local/projects/MTG3
-export IMGAG35="/usr/local/projects/MTG3/IMGAG3.5"
-export MTG4=/usr/local/projects/MTG4
+export GBROWSE=${ANNOT_DEVEL}/vkrishna/GBrowse
+export PROJECTS=/usr/local/projects
+export MTG3=${PROJECTS}/MTG3
+export MTG4=${PROJECTS}/MTG4
+export CURRENT=${MTG3}/IMGAG3.5/FINAL_GENE_SET
+export BOG=${PROJECTS}/BOG
+
+# InterProScan
+export IPRSCAN_HOME=${ANNOT_DEVEL}/iprscan/iprscan_v4.7
+export IPRSCAN_LIB=${IPRSCAN_HOME}/lib
+
+# AAT
+export AATPATH=/usr/local/bin
 
 export SVNHOME="http://isvn.tigr.org/ANNOTATION"
 export TZ="EST5EDT"
@@ -130,9 +153,32 @@ SGE=/usr/local/sge_current/jcvi/common/settings.sh
 if [ -r "$SGE" ]; then . $SGE; else echo "Missing $SGE - contact sysadmin."; fi
 export PCODE="04048"
 
+# CURL
+export CURL_LIBS=/usr/local/packages/curl/lib
+export CURL_CFLAGS=/usr/local/packages/curl/include
+
+# BOOST libs
+export BOOST_ROOT=/usr/local/packages/boost
+
+# OPENMP thread number
+export OMP_NUM_THREADS=64
+
 # Import Workflow settings
-WORKFLOW=/usr/local/devel/ANNOTATION/workflow-3.0B18/exec_env.bash
+WORKFLOW=${ANNOT_DEVEL}/workflow-3.0B18/exec_env.bash
 if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact jinman@jcvi.org."; fi
+
+# Enable git-completion
+GITCOMP=~/.git-completion.sh
+if [ -r "$GITCOMP" ]; then . $GITCOMP; else echo "Missing $GITCOMP."; fi
 
 # Use java160 by default
 use java160
+
+# Custom JCVI login banner
+if [ -f "${HOME}/.login" ]; then
+  . ${HOME}/.login
+fi
+
+# Enable iRODS commands autocomplete
+ICMDS=~/.i-commands-auto.bash
+if [ -r "$ICMDS" ]; then . $ICMDS; else echo "Missing $ICMDS."; fi

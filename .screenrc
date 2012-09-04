@@ -1,27 +1,34 @@
 #no bells and startup messages
 startup_message off
 vbell off
-    
-#10000 lines scrollback buffer    
-defscrollback 10000     
+
+#10000 lines scrollback buffer
+defscrollback 1000000
 #no login
 deflogin off
 
 #Timeout for displaying messages
 msgwait 1
 activity "         Activity has appeared in window      %n - %t"
-      
-#taskbar
-backtick 1 0 0 /home/vkrishna/bin/cpuusage
+
+##taskbar
+#backtick 1 0 0 /home/vkrishna/bin/cpuusage
+#hardstatus alwayslastline
+#hardstatus string '%{= kG} %{G}%H %{g}[%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}] %1`%% CPU %{W}%c %{g}'
+
+# backticks to display information in the statusbar
+backtick 1 0 0 /home/vkrishna/bin/screen-mem-usage
+backtick 2 0 0 /home/vkrishna/bin/screen-cpu-usage
+
 hardstatus alwayslastline
-hardstatus string '%{= kG} %{G}%H %{g}[%= %{=kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}] %1`%% CPU %{W}%c %{g}'
+hardstatus string '%{kg}HOST: %{kG}%H%{kg} %=%{kc}MEM: %{kB}%1` %{ky}CPU:%{kY}%2`%% %{kR}LOAD: %{kr}%l%=%{kc} %D %m/%d %{kC}%C%a%{w}'
 
 #dynamic title
 #shelltitle '# |bash'
 
 #When your ssh connection dies, screen is autodetached
-autodetach on 
+autodetach on
 
 #Nice 256 term colors
-attrcolor b ".I" 
+attrcolor b ".I"
 termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'

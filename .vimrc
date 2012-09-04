@@ -78,7 +78,13 @@ set ruler
 "-------------------------------------------------------------------------------
 " Various settings
 "-------------------------------------------------------------------------------
-set smartcase
+" Search
+set wrapscan   " search wrap around the end of the file
+set ignorecase " ignore case search
+set smartcase  " override 'ignorecase' if the search pattern contains upper case
+set incsearch  " incremental search
+set hlsearch   " highlight searched words
+nohlsearch     " avoid highlighting when reloading vimrc
 set smarttab
 set expandtab					" spaces are better than tabs
 set autoindent                  " copy indent from current line
@@ -92,18 +98,21 @@ set backspace=indent,eol,start  " backspacing over everything in insert mode
 set backup                      " keep a backup file
 set browsedir=current           " which directory to use for the file browser
 set complete+=k                 " scan the files given with the 'dictionary' option
-set history=50                  " keep 50 lines of command line history
-set incsearch                   " do incremental searching
+set history=100000              " keep 100000 lines of command line history
 set listchars=tab:>.,eol:\$     " strings to use in 'list' mode
 set nowrap                      " do not wrap lines
 set popt=left:8pc,right:3pc     " print options
 set ruler                       " show the cursor position all the time
-set wildignore=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
-set wildmenu                    " command-line completion in an enhanced mode
 set showmatch                   " show matched parantheses
 set scrolloff=10
 set wrap linebreak textwidth=0
 set backspace=indent,eol,start
+" Command completion
+set wildignore=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
+set wildmenu                   " enhance command completion
+set wildmode=list:longest,full " first 'list:longest' and second 'full'
+" write file easely
+nnoremap [Prefix]w :update
 "
 "-------------------------------------------------------------------------------
 "  highlight paired brackets
@@ -123,9 +132,9 @@ autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 "
 "-------------------------------------------------------------------------------
 " Save the current view (when closing file) and reload (when opening)
-"-------------------------------------------------------------------------------
-au BufWinLeave * mkview
-au BufWinEnter * silent loadview
+"------------------------------------------------------------------------------
+au BufWinLeave ?* mkview
+au BufWinEnter ?* silent loadview
 "-------------------------------------------------------------------------------
 "  some additional hot keys
 "-------------------------------------------------------------------------------
@@ -196,8 +205,9 @@ nnoremap  <C-q>    :wqall<CR>
 "-------------------------------------------------------------------------------
 " Shortcuts for Perltidy
 "-------------------------------------------------------------------------------
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi noremap <C-F9> :Tidy<CR>
+autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
+"autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% Tidy <line1>, <line2>!perltidy
+autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl noremap <C-F9> :Tidy<CR>
 "-------------------------------------------------------------------------------
 "re-map rcsvers.vim keys
 "-------------------------------------------------------------------------------
@@ -222,6 +232,7 @@ autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi noremap <C-F9> :Tidy<CR>
 nmap ,l :set list!<CR>
 map ,p :set paste<CR>i
 map ,i :set nopaste<CR>i
+map ,s :set invlist<CR>
 map ,x :x<CR>
 map ,q :q!<CR>
 "-------------------------------------------------------------------------------
