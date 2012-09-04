@@ -165,7 +165,7 @@ export OMP_NUM_THREADS=64
 
 # Import Workflow settings
 WORKFLOW=${ANNOT_DEVEL}/workflow-3.0B18/exec_env.bash
-if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact jinman@jcvi.org."; fi
+if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact workflow admin."; fi
 
 # Enable git-completion
 GITCOMP=~/.git-completion.sh
