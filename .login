@@ -1,18 +1,18 @@
+# Indirect pointer to the global .login file.
+# Do NOT edit the next line
+
+#source /usr/local/global.files/global.login
+
+# Put any additions of yours here.
+
 # display local login message
-#RND_NUM=$[ ( $RANDOM % 4 )  + 1 ]
-
-if [ -r "$HOME/.banner.login" ]; then
-  if [ -r "$HOME/.banners/banner$RND_NUM" ]; then
-	cat $HOME/.banners/banner$RND_NUM
-  fi
-
-  ascii="${HOME}/.banner.ascii"
-  if [[ -a $ascii ]] ; then . $ascii ; fi
-  cat $HOME/.banner.login
+if [ -r "/usr/local/global.files/banner.login" ]; then
+    ascii="${HOME}/.banner.ascii"
+    if [[ -a $ascii ]]; then . $ascii; fi
+    cat /usr/local/global.files/banner.login
 fi
 
 # display global login message
 if [ -r /etc/motd ]; then
-  cat /etc/motd
-  echo " "
+    cat /etc/motd
 fi

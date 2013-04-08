@@ -13,6 +13,9 @@ alias l='ls -CF'
 alias d='ls -d */'
 alias sl='ls'	# typo!
 
+# use updated tar
+alias tar='/usr/local/packages/tar-1.26/bin/tar'
+
 # Misc aliases
 alias ..='cd ..'
 alias cls='clear; ls -lh'
@@ -34,6 +37,13 @@ alias py='python'
 alias gitpull='/home/vkrishna/.cronjob/git.pull.sh >> /home/vkrishna/.cronjob/tanghaibao_jcvi_git.pull.log 2>&1'
 alias gitlog='cd /home/vkrishna/git/jcvi; git log; cd -'
 alias asndisc='linux64.asndisc'
+alias today='echo `date +"%Y%m%d"`'
+alias now='echo `date +"%Y%m%d_%H%M"`'
+alias bedsort='sort -k1,1 -k2,2g'
+alias ncpu='grep -c ^processor /proc/cpuinfo'
+alias qj='qjobstats -usage -timeline -owner vkrishna > results.html'
+alias easy_install='easy_install -UZ --prefix=/home/vkrishna'
+alias easy_uninstall='easy_install -mxN'
 
 # Aliases to most frequently used folders
 alias mtg3='cd /usr/local/projects/MTG3'
@@ -43,6 +53,10 @@ alias mtg4='cd /usr/local/projects/MTG4/A17'
 alias pseudos='cd /usr/local/projects/MTG3/IMGAG3.5/PSEUDOMOLECULE_BUILD/CURRENT/'
 alias scratch='cd /usr/local/scratch/EUK/vkrishna'
 alias archive='cd /usr/local/archive/projects/MTG3'
+
+# GFF specific aliases
+alias grepm='grep -P "\s+mRNA\s+\d+\s+\d+\s+"'
+alias grepg='grep -P "\s+gene\s+\d+\s+\d+\s+"'
 
 # usepackage derived aliases
 alias prmenu='source /usr/local/common/prmenu/prmenu.sh'
@@ -71,8 +85,9 @@ alias goldenpath='python -m jcvi.assembly.goldenpath'
 
 # grid aliases
 alias qsub='qsub -P 04048'
-alias qsubn='qsub -P 04048 -m aes -M vkrishnakumar@jcvi.org'
+alias qsubn='qsub -m aes -M vkrishnakumar@jcvi.org'
 alias qlogin='qlogin -P 04048'
+alias qaltern='qalter -m aes -M vkrishnakumar@jcvi.org'
 
 # Server login aliases
 alias biocon='ssh -XYC biocon.berkeley.edu -l bao'

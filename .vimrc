@@ -11,6 +11,8 @@
 " GENERAL SETTINGS
 "===================================================================================
 "
+" Automatically reload this file when it is modified
+autocmd! BufWritePost .vimrc source $HOME/.vimrc
 "-------------------------------------------------------------------------------
 " Use Vim settings, rather then Vi settings.
 " This must be first, because it changes other options as a side effect.
@@ -208,6 +210,11 @@ nnoremap  <C-q>    :wqall<CR>
 autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
 "autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% Tidy <line1>, <line2>!perltidy
 autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl noremap <C-F9> :Tidy<CR>
+"
+"-------------------------------------------------------------------------------
+" Always use Unix-format new lines for new files
+"-------------------------------------------------------------------------------
+au BufNewFile * if !&readonly && &modifiable | set fileformat=unix | endif
 "-------------------------------------------------------------------------------
 "re-map rcsvers.vim keys
 "-------------------------------------------------------------------------------
