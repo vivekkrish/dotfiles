@@ -25,77 +25,11 @@ varmunge () {
     export ${ENV_VAR_NAME}=$ENV_VAR
 }
 
-# local/packages
-PACKAGES=/usr/local/packages
-
-# use ANNOTATION_ENV
-export ANNOTATION_DIR=/usr/local/annotation
-
-# use EGC
-export ANNOT_DEVEL=/usr/local/devel/ANNOTATION
-export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
-export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities/bin
-export EUK_MODULES=${ANNOT_DEVEL}/Euk_modules/bin
-
-# Medicago/Annotation specific
-export GBROWSE=${ANNOT_DEVEL}/vkrishna/GBrowse
-export PROJECTS=/usr/local/projects
-export MTG3=${PROJECTS}/MTG3
-export MTG4=${PROJECTS}/MTG4
-export CURRENT=${MTG4}/A17/Current_annotation
-export BOG=${PROJECTS}/BOG
-export MACHTYPE="x86_64"
-
-# PATH
-RPATH="${HOME}/bin|/opt/real/RealPlayer"
-PATH=$( echo ${PATH} | tr -s ":" "\n" | grep -vwE "(${RPATH})" | tr -s "\n" ":" | sed "s/:$//" )
-
-PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:/export/bin:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/home/htang/bin:/usr/local/scratch/EUK/htang/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${PATH}
-PATH=${PATH}:${MTG4}/packages/sifter2.0:${MTG4}/packages/sifter2.0/scripts:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
-export PATH
-
-# LD_LIBRARY_PATH
-LD_LIBRARY_PATH=${HOME}/lib:/export/lib:/usr/local/scratch/EUK/htang/lib:/usr/local/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/sybase/OCS/lib
-export LD_LIBRARY_PATH
-
-# PYTHONPATH
-PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${HOME}/lib/python-2.6/site-packages
-export PYTHONPATH
-
-# PERL5LIB
-PERL5LIB=${MTG4}/packages/maker/perl/lib:${MTG4}packages/maker/lib:${HOME}/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
-export PERL5LIB
-
-# PKG_CONFIG_PATH
-export PKG_CONFIG_PATH=${PACKAGES}/glib/lib/pkgconfig:/usr/lib/pkgconfig
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
-
-# spike.jcvi.org specific environment
-if [ ${HOSTNAME} == "spike.jcvi.org" ]; then
-    export BQVERSION="bisque-0.5.3"
-    export BISQUE_ROOT=/opt/www/maize-bisque
-    export BQENV_DIR=${BQVERSION}/bqenv
-
-    export LD_RUN_PATH=${BISQUE_ROOT}/lib
-
-    varmunge PATH ${PACKAGES}/gcc-4.6.2/bin:${BISQUE_ROOT}/bin:${BISQUE_ROOT}/${BQENV_DIR}/bin
-
-    varmunge LD_LIBRARY_PATH ${PGSQL}/lib:${BISQUE_ROOT}/lib:${PACKAGES}/gcc-4.6.2/lib64:${PACKAGES}/gcc-4.6.2/lib:${PACKAGES}/mysql/lib/mysql
-    varmunge LD_LIBRARY_PATH /usr/lib64:/usr/lib append
-
-    varmunge PYTHONPATH ${BISQUE_ROOT}/lib/python2.6/site-packages:${BISQUE_ROOT}/${BQVERSION}/bqenv/lib/python2.6/site-packages
-    varmunge PKG_CONFIG_PATH ${BISQUE_ROOT}/lib/pkgconfig
-fi
-
 # User specific environment and startup programs
 #-------------------------#
 # ENVIRONMENT - LOCALE    #
 #-------------------------#
-export LANGUAGE="en_GB:en_US:en"
+export LANGUAGE="C"
 export LC_ALL="C"
 export LC_CTYPE=$LC_ALL
 export LANG=$LANGUAGE
@@ -117,6 +51,7 @@ export GREP_COLOR=31
 export NOSPLASH=1
 export NOWELCOME=1
 export EDITOR=vim VISUAL=vim
+export IGNOREEOF=2
 
 #------------------------------#
 # usepackage derived variables #
@@ -140,10 +75,55 @@ export SDK_HOME=${JAVA_HOME}
 export JDBC_HOME=/usr/local/common/jConnect-6_0
 export CLASSPATH=.:${JDBC_HOME}/classes/jconn3.jar
 
-# use shell
-ulimit -s unlimited >& /dev/null
-ulimit -Sc 0 >& /dev/null
-umask 002
+# PREFIX_PATH
+PREFIX_PATH=/home/vkrishna
+
+# local/packages
+PACKAGES=/usr/local/packages
+
+# use ANNOTATION_ENV
+export ANNOTATION_DIR=/usr/local/annotation
+
+# use EGC
+export ANNOT_DEVEL=/usr/local/devel/ANNOTATION
+export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
+export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities/bin
+export EUK_MODULES=${ANNOT_DEVEL}/Euk_modules/bin
+
+# Medicago/Annotation specific
+export GBROWSE=${ANNOT_DEVEL}/vkrishna/GBrowse
+export PROJECTS=/usr/local/projects
+export MTG3=${PROJECTS}/MTG3
+export MTG4=${PROJECTS}/MTG4
+export CURRENT=${MTG4}/A17/Current_annotation
+export BOG=${PROJECTS}/BOG
+export MACHTYPE="x86_64"
+
+# Trinity
+export TRINITY_HOME=${MTG4}/packages/trinityrnaseq
+
+# PATH
+RPATH="${HOME}/bin|/opt/real/RealPlayer"
+PATH=$( echo ${PATH} | tr -s ":" "\n" | grep -vwE "(${RPATH})" | tr -s "\n" ":" | sed "s/:$//" )
+
+PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:/export/bin:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/usr/local/scratch/EUK/htang/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${PATH}
+PATH=${PATH}:${MTG4}/packages/sifter2.0:${MTG4}/packages/sifter2.0/scripts:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
+export PATH
+
+# LD_LIBRARY_PATH
+LD_LIBRARY_PATH=${PACKAGES}/samtools/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/bzip2/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/scratch/EUK/htang/lib:${HOME}/lib:/export/lib
+export LD_LIBRARY_PATH
+
+# PYTHONPATH
+PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages
+export PYTHONPATH
+
+# PERL5LIB
+PERL5LIB=${MTG4}/packages/maker/perl/lib:${MTG4}packages/maker/lib:${HOME}/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+export PERL5LIB
+
+# PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:${PACKAGES}/glib/lib/pkgconfig
 
 # use phred
 export PHRED_PARAMETER_FILE=/usr/local/etc/PhredPar/phredpar.dat
@@ -193,30 +173,40 @@ export OMP_NUM_THREADS=64
 export MYSQLINC=${PACKAGES}/mysql/include/mysql
 export MYSQLLIBS="${PACKAGES}/mysql/lib/mysql/libmysqlclient.a -lz"
 
-# Import CentOS grid settings
+# use shell
+ulimit -s unlimited >& /dev/null
+ulimit -Sc 0 >& /dev/null
+umask 002
+
+# Import custom ENV
 SGE=/usr/local/sge_current/jcvi/common/settings.sh
-if [ -r "${SGE}" ]; then . ${SGE}; else echo "Missing ${SGE} - contact sysadmin."; fi
-
-# Import Workflow settings
 WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
-if [ -r "$WORKFLOW" ]; then . $WORKFLOW; else echo "Missing $WORKFLOW - contact jinman@jcvi.org."; fi
-
-# Enable git-completion
-GITCOMP=${HOME}/.git-completion.sh
-if [ -r "$GITCOMP" ]; then . $GITCOMP; else echo "Missing $GITCOMP."; fi
-
-# Use java160 by default
+ICMDS=~/.i-commands-auto.bash
 JAVA160=/usr/local/common/env/java6.sh
-if [ -r "$JAVA160" ]; then . $JAVA160; else echo "Missing $JAVA160."; fi
+GITCOMP=${HOME}/.git-completion.sh
+
+declare -a ENVVARS=(SGE WORKFLOW ICMDS JAVA160 GITCOMP)
+for i in ${ENVVARS[@]}; do
+    eval ENVVAR=\$$i
+    if [ -r "$ENVVAR" ]; then
+        if [ "$PS1" ]; then
+            . "$ENVVAR"
+        else
+            . "$ENVVAR" >/dev/null 2>&1
+        fi
+    fi
+done
+
+
+# Add bash aliases.
+if [ -f "${HOME}/.bash_aliases" ]; then
+  . ${HOME}/.bash_aliases
+fi
 
 # Custom JCVI login banner
 if [ -f "${HOME}/.login" ]; then
   . ${HOME}/.login
 fi
-
-# Enable iRODS commands autocomplete
-ICMDS=~/.i-commands-auto.bash
-if [ -r "$ICMDS" ]; then . $ICMDS; else echo "Missing $ICMDS."; fi
 
 # MANPATH
 MANPATH=${HOME}/share/man:/usr/local/common/man:${MANPATH}
@@ -406,9 +396,9 @@ shopt -s histreedit
 export HISTCONTROL=ignorespace:erasedups    # ignore space and erase duplicate entries
 
 # big big history
-export     HISTSIZE=100000000000
-export HISTFILESIZE=100000000000
-export HISTTIMEFORMAT="%Y%m%d %H:%M:%S "
+export     HISTSIZE=50000
+export HISTFILESIZE=100000
+#export HISTTIMEFORMAT="%Y%m%d %H:%M:%S "
 
 # make bash append the history rather than overwrite it
 shopt -s histappend       # append to history, don't overwrite it
@@ -452,11 +442,6 @@ if [ "$PS1" ] ; then
     echo -e \"\${prompt}\"
     "
     export PS1="\$(${prompt})"
-fi
-
-# Add bash aliases.
-if [ -f "${HOME}/.bash_aliases" ]; then
-  . ${HOME}/.bash_aliases
 fi
 
 ####################################################################
@@ -520,8 +505,3 @@ ogm|OGM|mp4|MP4|wav|WAV|asx|ASX)' xine
 
 # Misc
 complete -f -o default -X '!*.pl'  perl perl5
-
-## Requires bash >= 4.1
-#if [ -f "${HOME}/etc/profile.d/bash_completion.sh" ]; then
-#    . ${HOME}/etc/profile.d/bash_completion.sh
-#fi
