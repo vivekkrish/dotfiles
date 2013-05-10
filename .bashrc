@@ -1,30 +1,4 @@
 # .bashrc
-
-# varmunge
-varmunge () {
-    ENV_VAR_NAME=`echo $1 | tr '[:lower:]' '[:upper:]'`
-    DIRS_TO_ADD=$2
-    IFS=':' read -a DIRS_ARRAY <<< "$DIRS_TO_ADD"
-
-    eval ENV_VAR=\$$ENV_VAR_NAME
-
-    for (( idx=${#DIRS_ARRAY[@]}-1 ; idx>=0 ; idx-- )) ; do
-        if ! echo $ENV_VAR | /bin/egrep -q "(^|:)${DIRS_ARRAY[idx]}($|:)" ; then
-            if [ -z "$ENV_VAR" ]; then
-                ENV_VAR=${DIRS_ARRAY[idx]}
-            else
-                if [ "$3" = "append" ] ; then
-                    ENV_VAR=$ENV_VAR:${DIRS_ARRAY[idx]}
-                else
-                    ENV_VAR=${DIRS_ARRAY[idx]}:$ENV_VAR
-                fi
-            fi
-        fi
-    done
-
-    export ${ENV_VAR_NAME}=$ENV_VAR
-}
-
 # User specific environment and startup programs
 #-------------------------#
 # ENVIRONMENT - LOCALE    #
@@ -34,11 +8,6 @@ export LC_ALL="C"
 export LC_CTYPE=$LC_ALL
 export LANG=$LANGUAGE
 export LC_COLLATE="C"
-
-#-------------------------#
-# SHELL - CHECK TYPE      #
-#-------------------------#
-[[ $- != *i* ]] && return
 
 #-----------------------------#
 # ENVIRONMENT - APPLICATIONS  #
@@ -66,14 +35,14 @@ export OSVERSION="`uname -r`"
 export RELEASE="`uname -r`"
 export MACHINE="`uname -n`"
 export RSYNC_RSH="ssh"
-export JAVA_HOME=/usr/local/java/current
-export JAVA_BINDIR=${JAVA_HOME}/bin
-export JAVA_ROOT=${JAVA_HOME}
-export JRE_HOME=${JAVA_HOME}/jre
-export JDK_HOME=${JAVA_HOME}
-export SDK_HOME=${JAVA_HOME}
-export JDBC_HOME=/usr/local/common/jConnect-6_0
-export CLASSPATH=.:${JDBC_HOME}/classes/jconn3.jar
+#export JAVA_HOME=/usr/local/java/current
+#export JAVA_BINDIR=${JAVA_HOME}/bin
+#export JAVA_ROOT=${JAVA_HOME}
+#export JRE_HOME=${JAVA_HOME}/jre
+#export JDK_HOME=${JAVA_HOME}
+#export SDK_HOME=${JAVA_HOME}
+#export JDBC_HOME=/usr/local/common/jConnect-6_0
+#export CLASSPATH=.:${JDBC_HOME}/classes/jconn3.jar
 
 # PREFIX_PATH
 PREFIX_PATH=/home/vkrishna
@@ -103,15 +72,15 @@ export MACHTYPE="x86_64"
 export TRINITY_HOME=${MTG4}/packages/trinityrnaseq
 
 # PATH
-RPATH="${HOME}/bin|/opt/real/RealPlayer"
+RPATH="${HOME}/bin|/opt/real/RealPlayer|/usr/local/bin"
 PATH=$( echo ${PATH} | tr -s ":" "\n" | grep -vwE "(${RPATH})" | tr -s "\n" ":" | sed "s/:$//" )
 
-PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:/export/bin:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/usr/local/scratch/EUK/htang/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${PATH}
+PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:${PATH}
 PATH=${PATH}:${MTG4}/packages/sifter2.0:${MTG4}/packages/sifter2.0/scripts:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 export PATH
 
 # LD_LIBRARY_PATH
-LD_LIBRARY_PATH=${PACKAGES}/samtools/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/bzip2/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/scratch/EUK/htang/lib:${HOME}/lib:/export/lib
+LD_LIBRARY_PATH=${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64
 export LD_LIBRARY_PATH
 
 # PYTHONPATH
@@ -119,7 +88,7 @@ PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${PACKAGES
 export PYTHONPATH
 
 # PERL5LIB
-PERL5LIB=${MTG4}/packages/maker/perl/lib:${MTG4}packages/maker/lib:${HOME}/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+PERL5LIB=${MTG4}/packages/maker/perl/lib:${MTG4}/packages/maker/lib:${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
 export PERL5LIB
 
 # PKG_CONFIG_PATH
@@ -197,6 +166,15 @@ for i in ${ENVVARS[@]}; do
     fi
 done
 
+# MANPATH
+MANPATH=${HOME}/share/man:/usr/local/common/man:${MANPATH}
+MANPATH=${MANPATH}:/usr/man:/usr/X11R6/man:/opt/gnome/share/man:/usr/openwin/man
+export MANPATH
+
+#-------------------------#
+# SHELL - CHECK TYPE      #
+#-------------------------#
+#[[ $- != *i* ]] && return
 
 # Add bash aliases.
 if [ -f "${HOME}/.bash_aliases" ]; then
@@ -208,12 +186,32 @@ if [ -f "${HOME}/.login" ]; then
   . ${HOME}/.login
 fi
 
-# MANPATH
-MANPATH=${HOME}/share/man:/usr/local/common/man:${MANPATH}
-MANPATH=${MANPATH}:/usr/man:/usr/X11R6/man:/opt/gnome/share/man:/usr/openwin/man
-export MANPATH
-
 # User specific aliases and functions
+# varmunge
+varmunge () {
+    ENV_VAR_NAME=`echo $1 | tr '[:lower:]' '[:upper:]'`
+    DIRS_TO_ADD=$2
+    IFS=':' read -a DIRS_ARRAY <<< "$DIRS_TO_ADD"
+
+    eval ENV_VAR=\$$ENV_VAR_NAME
+
+    for (( idx=${#DIRS_ARRAY[@]}-1 ; idx>=0 ; idx-- )) ; do
+        if ! echo $ENV_VAR | /bin/egrep -q "(^|:)${DIRS_ARRAY[idx]}($|:)" ; then
+            if [ -z "$ENV_VAR" ]; then
+                ENV_VAR=${DIRS_ARRAY[idx]}
+            else
+                if [ "$3" = "append" ] ; then
+                    ENV_VAR=$ENV_VAR:${DIRS_ARRAY[idx]}
+                else
+                    ENV_VAR=${DIRS_ARRAY[idx]}:$ENV_VAR
+                fi
+            fi
+        fi
+    done
+
+    export ${ENV_VAR_NAME}=$ENV_VAR
+}
+
 # extract files based on file extension
 function extract()
 {
