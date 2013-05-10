@@ -14,7 +14,7 @@ alias d='ls -d */'
 alias sl='ls'	# typo!
 
 # use updated tar
-alias tar='/usr/local/packages/tar-1.26/bin/tar'
+#alias tar='/usr/local/packages/tar-1.26/bin/tar'
 
 # Misc aliases
 alias ..='cd ..'
@@ -42,8 +42,8 @@ alias now='echo `date +"%Y%m%d_%H%M"`'
 alias bedsort='sort -k1,1 -k2,2g'
 alias ncpu='grep -c ^processor /proc/cpuinfo'
 alias qj='qjobstats -usage -timeline -owner vkrishna > results.html'
-alias easy_install='easy_install -UZ --prefix=/home/vkrishna'
-alias easy_uninstall='easy_install -mxN'
+#alias easy_install='easy_install -UZ --prefix=/home/vkrishna'
+#alias easy_uninstall='easy_install -mxN'
 
 # Aliases to most frequently used folders
 alias mtg3='cd /usr/local/projects/MTG3'
@@ -93,3 +93,6 @@ alias qaltern='qalter -m aes -M vkrishnakumar@jcvi.org'
 alias biocon='ssh -XYC biocon.berkeley.edu -l bao'
 alias spike='ssh spike.jcvi.org'
 alias lserver="ssh lserver1.jcvi.org"
+
+# reset `which` alias
+#alias which='/usr/bin/which'
