@@ -45,7 +45,7 @@ export RSYNC_RSH="ssh"
 #export CLASSPATH=.:${JDBC_HOME}/classes/jconn3.jar
 
 # PREFIX_PATH
-PREFIX_PATH=/home/vkrishna
+#PREFIX_PATH=/home/vkrishna
 
 # local/packages
 PACKAGES=/usr/local/packages
@@ -68,6 +68,9 @@ export CURRENT=${MTG4}/A17/Current_annotation
 export BOG=${PROJECTS}/BOG
 export MACHTYPE="x86_64"
 
+# PASA
+#export PASAHOME=${MTG4}/packages/PASA2
+
 # Trinity
 export TRINITY_HOME=${MTG4}/packages/trinityrnaseq
 
@@ -75,7 +78,7 @@ export TRINITY_HOME=${MTG4}/packages/trinityrnaseq
 RPATH="${HOME}/bin|/opt/real/RealPlayer|/usr/local/bin"
 PATH=$( echo ${PATH} | tr -s ":" "\n" | grep -vwE "(${RPATH})" | tr -s "\n" ":" | sed "s/:$//" )
 
-PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:${PATH}
+PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:/usr/local/genome/bin:/usr/local/common:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:/usr/local/projects/MTG4/packages/bin:${PATH}
 PATH=${PATH}:${MTG4}/packages/sifter2.0:${MTG4}/packages/sifter2.0/scripts:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 export PATH
 
@@ -88,7 +91,7 @@ PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${PACKAGES
 export PYTHONPATH
 
 # PERL5LIB
-PERL5LIB=${MTG4}/packages/maker/perl/lib:${MTG4}/packages/maker/lib:${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+PERL5LIB=${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
 export PERL5LIB
 
 # PKG_CONFIG_PATH
@@ -174,7 +177,7 @@ export MANPATH
 #-------------------------#
 # SHELL - CHECK TYPE      #
 #-------------------------#
-#[[ $- != *i* ]] && return
+[[ $- != *i* ]] && return
 
 # Add bash aliases.
 if [ -f "${HOME}/.bash_aliases" ]; then
@@ -189,9 +192,17 @@ fi
 # User specific aliases and functions
 # varmunge
 varmunge () {
+    if [ $# = 0 ]; then
+        echo "Usage: varmunge ENVNVAR /path/to/add [append]"
+        return;
+    fi
+    OLD_IFS=$IFS
+
     ENV_VAR_NAME=`echo $1 | tr '[:lower:]' '[:upper:]'`
     DIRS_TO_ADD=$2
     IFS=':' read -a DIRS_ARRAY <<< "$DIRS_TO_ADD"
+
+    IFS=$OLD_IFS
 
     eval ENV_VAR=\$$ENV_VAR_NAME
 
@@ -347,6 +358,9 @@ shopt -s checkhash
 shopt -s cdable_vars
 shopt -s no_empty_cmd_completion
 
+# don't allow shell to exit if there are running jobs
+shopt -s checkjobs
+
 # make bash autocomplete with up arrow
 bind '"\e[A"':history-search-backward
 bind '"\e[B"':history-search-forward
@@ -387,7 +401,7 @@ bind '"\xf2"':"$cmd_mhist"
 # verify command before running it
 shopt -s histverify
 
-# If a history expansion fails,  let the user re-edit the command
+# If a history expansion fails, let the user re-edit the command
 shopt -s histreedit
 
 # don't put duplicate lines in the history
