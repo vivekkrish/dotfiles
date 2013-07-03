@@ -42,6 +42,7 @@ alias now='echo `date +"%Y%m%d_%H%M"`'
 alias bedsort='sort -k1,1 -k2,2g'
 alias ncpu='grep -c ^processor /proc/cpuinfo'
 alias qj='qjobstats -usage -timeline -owner vkrishna > results.html'
+alias ro='chmod ugo+r-wx'
 #alias easy_install='easy_install -UZ --prefix=/home/vkrishna'
 #alias easy_uninstall='easy_install -mxN'
 
@@ -77,17 +78,19 @@ alias sybprod='declare -x DSQUERY=SYBPROD'
 # Python aliases (Haibao's code base)
 alias fasta='python -m jcvi.formats.fasta'
 alias fastq='python -m jcvi.formats.fastq'
+alias blast='python -m jcvi.formats.blast'
 alias agp='python -m jcvi.formats.agp'
+alias gff='python -m jcvi.formats.gff'
 alias entrez='python -m jcvi.apps.entrez'
 alias grid='python -m jcvi.apps.grid'
-alias gff='python -m jcvi.formats.gff'
 alias goldenpath='python -m jcvi.assembly.goldenpath'
 
 # grid aliases
-alias qsub='qsub -P 04048'
-alias qsubn='qsub -m aes -M vkrishnakumar@jcvi.org'
-alias qlogin='qlogin -P 04048'
-alias qaltern='qalter -m aes -M vkrishnakumar@jcvi.org'
+alias qsub="qsub -P ${PCODE}"
+alias qsubn="qsub -m aes -M ${EMAIL}"
+alias qlogin="qlogin -P ${PCODE}"
+alias qaltern="qalter -m aes -M ${EMAIL}"
+alias sge_hold_jid="${HOME}/bin/sge_hold_jid && source ${HOME}/tmp/.sge_hold_jid"
 
 # Server login aliases
 alias biocon='ssh -XYC biocon.berkeley.edu -l bao'

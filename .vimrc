@@ -43,6 +43,13 @@ imap <F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 nmap <c-s> :w<CR>
 imap <c-s> <Esc>:w<CR>a
 "
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+"
+" Fast saving
+nmap <leader>w :w!<cr>
 "-------------------------------------------------------------------------------
 " Status line
 "-------------------------------------------------------------------------------
@@ -97,6 +104,7 @@ set tabstop=4                   " number of spaces that a <Tab> counts for
 set autoread                    " read open files again when changed outside Vim
 set autowrite                   " write a modified buffer on each :next , ...
 set backspace=indent,eol,start  " backspacing over everything in insert mode
+set whichwrap+=<,>,h,l
 set backup                      " keep a backup file
 set browsedir=current           " which directory to use for the file browser
 set complete+=k                 " scan the files given with the 'dictionary' option
@@ -106,15 +114,20 @@ set nowrap                      " do not wrap lines
 set popt=left:8pc,right:3pc     " print options
 set ruler                       " show the cursor position all the time
 set showmatch                   " show matched parantheses
+" How many tenths of a second to blink when matching brackets
+set mat=2
 set scrolloff=10
 set wrap linebreak textwidth=0
-set backspace=indent,eol,start
+set magic                       " magic for regular expressions
 " Command completion
 set wildignore=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
 set wildmenu                   " enhance command completion
 set wildmode=list:longest,full " first 'list:longest' and second 'full'
-" write file easely
+" write file easily
 nnoremap [Prefix]w :update
+"
+"set mouse=a " enable using the mouse if terminal emulator
+" supports it (xterm does)
 "
 "-------------------------------------------------------------------------------
 "  highlight paired brackets
@@ -127,6 +140,9 @@ highlight MatchParen ctermbg=blue guibg=lightyellow
 highlight flicker cterm=bold ctermfg=red
 au CursorMoved <buffer> exe 'match flicker /\V\<'.escape(expand('<cword>'), '/').'\>/'
 "
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+"
 "-------------------------------------------------------------------------------
 " Remove any trailing whitespace that is in the file
 "-------------------------------------------------------------------------------
@@ -137,6 +153,13 @@ autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 "------------------------------------------------------------------------------
 au BufWinLeave ?* mkview
 au BufWinEnter ?* silent loadview
+"
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+"
 "-------------------------------------------------------------------------------
 "  some additional hot keys
 "-------------------------------------------------------------------------------
@@ -233,18 +256,51 @@ au BufNewFile * if !&readonly && &modifiable | set fileformat=unix | endif
 "let g:rvSaveIfPreviousRCSFileExists = 0
 "let g:rvIncludeExpression = '\c\.pl\|\c\.spl\|\c\.cgi\|\c\.php\|\c\.py\|\c\.js\|\c\.conf\|\c\.ini\|\chtml\|\c\.tmpl\|\c\.java\|\c\.c\|\c\.cpp\|\c\.vim\|\crc$'
 "
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 "-------------------------------------------------------------------------------
 " helpful shortcuts
 "-------------------------------------------------------------------------------
-nmap ,l :set list!<CR>
-map ,p :set paste<CR>i
-map ,i :set nopaste<CR>i
-map ,s :set invlist<CR>
-map ,x :x<CR>
-map ,q :q!<CR>
+nmap <leader>l :set list!<CR>
+map <leader>p :set paste<CR>i
+map <leader>i :set nopaste<CR>i
+map <leader>s :set invlist<CR>
+map <leader>x :x<CR>
+map <leader>q :q!<CR>
 "-------------------------------------------------------------------------------
 " solarize colorscheme
 "-------------------------------------------------------------------------------
 "syntax enable
 "colorscheme solarized
 "set background=light
+"
+" Delete trailing white space on save, useful for Python
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+"
+" Common abbreviations / misspellings {{{
+"source ~/.vim/plugin/autocorrect.vim
+" }}}
+"
+" Quote words under cursor
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
+"
+" Use shift-H and shift-L for move to beginning/end
+nnoremap H 0
+nnoremap L $
