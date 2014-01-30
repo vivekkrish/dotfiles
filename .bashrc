@@ -3,10 +3,8 @@
 #-------------------------#
 # ENVIRONMENT - LOCALE    #
 #-------------------------#
-export LANGUAGE="C"
 export LC_ALL="C"
 export LC_CTYPE=$LC_ALL
-export LANG=$LANGUAGE
 export LC_COLLATE="C"
 
 #-----------------------------#
@@ -56,18 +54,24 @@ export ANNOTATION_DIR=/usr/local/annotation
 # use EGC
 export ANNOT_DEVEL=/usr/local/devel/ANNOTATION
 export EGC_SCRIPTS=${ANNOT_DEVEL}/euk_genome_control/bin
-export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities/bin
+export EGC_UTILITIES=${ANNOT_DEVEL}/EGC_utilities
 export EUK_MODULES=${ANNOT_DEVEL}/Euk_modules/bin
+export EUK_ORGANIZATION=${ANNOT_DEVEL}/EUK_ORGANIZATION
 
 # Medicago/Annotation specific
 export GBROWSE=${ANNOT_DEVEL}/vkrishna/GBrowse
 export PROJECTS=/usr/local/projects
 export MTG3=${PROJECTS}/MTG3
 export MTG4=${PROJECTS}/MTG4
+export AIP=${PROJECTS}/AIP
 export CURRENT=${MTG4}/A17/Current_annotation
+export MTA4=/usr/local/annotation/MTA4
 export BOG=${PROJECTS}/BOG
 export WILLOW=${PROJECTS}/WILLOW
 export MACHTYPE="x86_64"
+
+# Amazon EC2 Private Key
+export EC2_PRIVATE_KEY=/usr/local/projects/MTG4/Workshop2013/AWS/jcvi_workshop_2013-$USER.pem
 
 # PASA
 #export PASAHOME=${MTG4}/packages/PASA2
@@ -84,28 +88,60 @@ export JBROWSE=${MTG4}/packages/JBrowse-current
 # NCBI-BLAST+
 export BLASTPLUS=${PACKAGES}/ncbi-blast+/bin
 
+# MAKER HOME
+export MAKER_HOME=${MTG4}/packages/maker
+
+# AUGUSTUS
+export AUGUSTUS_CONFIG_PATH=${PACKAGES}/augustus/config
+
 # PATH
-RPATH="${HOME}/bin|/opt/real/RealPlayer|/usr/local/bin"
+RPATH="${HOME}/bin|/opt/real/RealPlayer|/usr/local/bin|/usr/local/sbin"
 PATH=$( echo ${PATH} | tr -s ":" "\n" | grep -vwE "(${RPATH})" | tr -s "\n" ":" | sed "s/:$//" )
 
-PATH=/export/firefox:/export/thunderbird:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${BLASTPLUS}:/usr/local/bin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}
-PATH=${PATH}:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
-export PATH
+if [[ "${HOSTNAME}" == "itchy" ]]; then
+    ## itchy.jcvi.org specific configuration for BISQUE
+    export BQROOT=/opt/www/maize-bisque
+    #export BQVERSION="bisque-053"
 
-# LD_LIBRARY_PATH
-LD_LIBRARY_PATH=${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
-export LD_LIBRARY_PATH
+    PATH=${BQROOT}/bin:/usr/local/bin:/usr/local/sbin:${PATH}:{$HOME}/bin
+    LD_LIBRARY_PATH=${PACKAGES}/mysql/lib:${BQROOT}/lib:${PACKAGES}/fftw/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib64:${HOME}/lib
+    PKG_CONFIG_PATH=${BQROOT}/lib/pkgconfig
+    PYTHONPATH=${BQROOT}/lib/python2.7/site-packages:${PACKAGES}/python/lib/python2.7/site-packages
+    HDF5_DIR=/usr/local/packages/hdf5
+elif [[ "${HOSTNAME}" == "columbia" ]]; then
+    PATH=${AIP}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin/icommands:${HOME}/bin:${PATH}
+    LD_LIBRARY_PATH=${AIP}/local/lib:/opt/www/araport/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib:${HOME}/lib
+    PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages:/home/htang/lib/python2.7/site-packages
+    PERL5LIB=${AIP}/local/lib
+else
+    # PATH
+    PATH=${AIP}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${BLASTPLUS}:/usr/local/bin:/usr/local/sbin:${MAKER_HOME}/bin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}
+    PATH=${PATH}:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 
-# PYTHONPATH
-PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages
-export PYTHONPATH
+    # LD_LIBRARY_PATH
+    LD_LIBRARY_PATH=${AIP}/local/lib:/export/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
 
-# PERL5LIB
-PERL5LIB=${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
-export PERL5LIB
+    # PYTHONPATH
+    PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.6/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages:${HOME}/lib/python2.7/site-packages:/home/htang/lib/python2.7/site-packages
 
-# PKG_CONFIG_PATH
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig:${PACKAGES}/glib/lib/pkgconfig
+    # PERL5LIB
+    #PERL5LIB=${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+    PERL5LIB=$AIP/local/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+
+    # PKG_CONFIG_PATH
+    PKG_CONFIG_PATH=/usr/lib/pkgconfig:${PACKAGES}/glib/lib/pkgconfig
+
+    ## CHADO
+    export GMOD_ROOT=/usr/local/projects/AIP/vkrishna/gmod
+    export CHADO_DB_NAME=chadotest1
+    export CHADO_DB_USERNAME=vkrishna
+    export CHADO_DB_PASSWORD=vkrishna9
+    export CHADO_DB_HOST=localhost
+    export CHADO_DB_PORT=5432
+fi
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${HOME}/lib/pkgconfig
+
+export PATH LD_LIBRARY_PATH PYTHONPATH PKG_CONFIG_PATH PERL5LIB
 
 # use phred
 export PHRED_PARAMETER_FILE=/usr/local/etc/PhredPar/phredpar.dat
@@ -121,6 +157,7 @@ export CVSROOT=":ext:${USER}@cvs.jcvi.org:/usr/local/src/cvsroot"
 
 # use sybase
 export SYBASE=${PACKAGES}/sybase
+export LANG=en_US.UTF-8
 export DSQUERY="SYBPROD"
 
 # EVM
@@ -161,25 +198,28 @@ ulimit -Sc 0 >& /dev/null
 umask 002
 
 # Import custom ENV
-export PCODE="0372"
-export EMAIL="vkrishnakumar@jcvi.org"
-SGE=/usr/local/sge_current/jcvi/common/settings.sh
-WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
-JAVA160=/usr/local/common/env/java6.sh
-GITCOMP=${HOME}/.git-completion.sh
-ICMDS=~/.i-commands-auto.bash
+if [[ ${HOSTNAME} != "itchy" ]]; then
+    export PCODE="0372"
+    export EMAIL="vkrishna@jcvi.org"
 
-declare -a ENVVARS=(SGE WORKFLOW JAVA160 GITCOMP ICMDS)
-for i in ${ENVVARS[@]}; do
-    eval ENVVAR=\$$i
-    if [ -r "$ENVVAR" ]; then
-        if [ "$PS1" ]; then
-            . "$ENVVAR"
-        else
-            . "$ENVVAR" >/dev/null 2>&1
+    SGE=/usr/local/sge_current/jcvi/common/settings.sh
+    WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
+    JAVA160=/usr/local/common/env/java6.sh
+    GITCOMP=${HOME}/.git-completion.sh
+    ICMDS=~/.i-commands-auto.bash
+
+    declare -a ENVVARS=(SGE WORKFLOW JAVA160 GITCOMP ICMDS)
+    for i in ${ENVVARS[@]}; do
+        eval ENVVAR=\$$i
+        if [ -r "$ENVVAR" ]; then
+            if [ "$PS1" ]; then
+                . "$ENVVAR"
+            else
+                . "$ENVVAR" >/dev/null 2>&1
+            fi
         fi
-    fi
-done
+    done
+fi
 
 # MANPATH
 MANPATH=${HOME}/share/man:/usr/local/common/man:${MANPATH}
@@ -225,7 +265,7 @@ shopt -s cdable_vars
 shopt -s no_empty_cmd_completion
 
 # don't allow shell to exit if there are running jobs
-shopt -s checkjobs
+#shopt -s checkjobs
 
 # make bash autocomplete with up arrow
 bind '"\e[A"':history-search-backward
@@ -290,8 +330,8 @@ PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} - ${PWD/#$HOME/~}"; ech
 # Save and reload the history after each command finishes
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
-export GIT_PS1_SHOWUPSTREAM="auto"
-export GIT_PS1_SHOWDIRTYSTATE="true"
+#export GIT_PS1_SHOWUPSTREAM="auto"
+#export GIT_PS1_SHOWDIRTYSTATE="true"
 
 # Set the prompt PS1 variable
 colors="${HOME}/.colors.bash"
@@ -306,6 +346,7 @@ if [ "$PS1" ] ; then
     # MySQL prompt
     export MYSQL_PS1='\u@\h \d \c> '
 
+    #git=\"\$(__git_ps1 \"(\[$Green\]%s\[$Reset\])\[$Yellow\]\$(__git_dirty)\[$Reset\] \")\"
     prompt="
     status=\$?
 
@@ -313,9 +354,8 @@ if [ "$PS1" ] ; then
     user='\[$BIBlue\]\u\[$Reset\]'
     host='\[$Yellow\]\h\[$Reset\]'
     cwd='\[$Cyan\]\w\[$Reset\]'
-    git=\"\$(__git_ps1 \"(\[$Green\]%s\[$Reset\])\[$Yellow\]\$(__git_dirty)\[$Reset\] \")\"
 
-    prompt=\"\n\${timestamp}\n\${user}@\${host} \${cwd}\n\${git}\$ \"
+    prompt=\"\n\${timestamp}\n\${user}@\${host} \${cwd}\n\$ \"
 
     echo -e \"\${prompt}\"
     "
@@ -383,3 +423,7 @@ ogm|OGM|mp4|MP4|wav|WAV|asx|ASX)' xine
 
 # Misc
 complete -f -o default -X '!*.pl'  perl perl5
+
+## LS_COLORS
+#eval $(dircolors -b /home/vkrishna/git/LS_COLORS/LS_COLORS)
+export LS_COLORS='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;35:*.cmd=00;32:*.exe=00;32:*.sh=00;32:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.t=93:*.pm=00;36:*.pod=00;96:*.conf=00;33:*.off=00;9:*.jpg=00;94:*.png=00;94:*.xcf=00;94:*.JPG=00;94:*.gif=00;94:*.pdf=00;91'

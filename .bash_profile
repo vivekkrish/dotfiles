@@ -1,12 +1,8 @@
 # .bash_profile
 
-# Load .profile, containing login, non-bash related initializations.
-if [ -f "$HOME/.profile" ] ; then
-  source $HOME/.profile
-fi
+# User specific environment and startup programs
 
-# Load .bashrc, containing non-login related bash initializations.
 # Get the aliases and functions
-if [ -f "$HOME/.bashrc" ] ; then
-  source $HOME/.bashrc
+if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
 fi
