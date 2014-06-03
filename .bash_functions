@@ -159,3 +159,27 @@ Qsub() {
 md() {
     mkdir -p "$1" && cd "$1"
 }
+
+# bash hashmap
+hinit() {
+    rm -f /tmp/hashmap.$1
+}
+
+hload() {
+    hinit $1
+    if [ -e $2 ]; then
+        cat $2 > /tmp/hashmap.$1
+    else
+        echo "Error: File $2 does not exist!"
+        exit
+    fi
+}
+
+hput() {
+    echo "$2	$3" >> /tmp/hashmap.$1
+}
+
+hget() {
+    grep -P "^$2\s+" /tmp/hashmap.$1 | awk '{ print $2 };'
+}
+function gi() { curl http://www.gitignore.io/api/$@ ;}

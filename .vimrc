@@ -18,6 +18,37 @@ autocmd! BufWritePost .vimrc source $HOME/.vimrc
 " This must be first, because it changes other options as a side effect.
 "-------------------------------------------------------------------------------
 set nocompatible
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'elzr/vim-json'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+Bundle 'morhetz/gruvbox'
+Bundle 'altercation/vim-colors-solarized'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList          - list configured plugins
+" :PluginInstall(!)    - install (update) plugins
+" :PluginSearch(!) foo - search (or refresh cache first) for foo
+" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 "
 "-------------------------------------------------------------------------------
 " Enable file type detection. Use the default filetype settings.
@@ -230,9 +261,8 @@ nnoremap  <C-q>    :wqall<CR>
 "-------------------------------------------------------------------------------
 " Shortcuts for Perltidy
 "-------------------------------------------------------------------------------
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
-"autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl command! -range=% Tidy <line1>, <line2>!perltidy
-autocmd BufRead,BufNewFile *.pl,*.plx,*.pm,*.cgi,*.dbi,*.spl noremap <C-F9> :Tidy<CR>
+autocmd BufRead,BufNewFile * command! -range=% -nargs=* Tidy <line1>, <line2>!perltidy -q -pt=2 -l=100 -sfs -dws -bbs -bbc -bbb -kbl=1
+autocmd BufRead,BufNewFile * noremap <C-F9> :Tidy<CR>
 "
 "-------------------------------------------------------------------------------
 " Always use Unix-format new lines for new files
@@ -268,12 +298,14 @@ map <leader>s :set invlist<CR>
 map <leader>x :x<CR>
 map <leader>q :q!<CR>
 "-------------------------------------------------------------------------------
-" solarize colorscheme
+" colorscheme
 "-------------------------------------------------------------------------------
 "syntax enable
-"colorscheme solarized
 "set background=light
-"
+"colorscheme github
+if &diff
+    colorscheme mycolorscheme
+endif
 " Delete trailing white space on save, useful for Python
 func! DeleteTrailingWS()
   exe "normal mz"
@@ -304,3 +336,4 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 " Use shift-H and shift-L for move to beginning/end
 nnoremap H 0
 nnoremap L $
+

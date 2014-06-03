@@ -45,6 +45,9 @@ alias qj='qjobstats -usage -timeline -owner vkrishna > results.html'
 alias ro='chmod ugo+r-wx'
 #alias easy_install='easy_install -UZ --prefix=/home/vkrishna'
 #alias easy_uninstall='easy_install -mxN'
+#
+# job handling
+alias bd='bg && disown'
 
 # Aliases to most frequently used folders
 alias mtg3='cd /usr/local/projects/MTG3'
@@ -81,9 +84,12 @@ alias fastq='python -m jcvi.formats.fastq'
 alias blast='python -m jcvi.formats.blast'
 alias agp='python -m jcvi.formats.agp'
 alias gff='python -m jcvi.formats.gff'
+alias bed='python -m jcvi.formats.bed'
 alias entrez='python -m jcvi.apps.entrez'
 alias grid='python -m jcvi.apps.grid'
-alias goldenpath='python -m jcvi.assembly.goldenpath'
+alias join='python -m jcvi.formats.base join'
+alias setop='python -m jcvi.formats.base setop'
+alias waitpid='python -m jcvi.apps.base waitpid --notify=pushover'
 
 # grid aliases
 alias qsub="qsub -P ${PCODE}"
