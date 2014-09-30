@@ -182,4 +182,9 @@ hput() {
 hget() {
     grep -P "^$2\s+" /tmp/hashmap.$1 | awk '{ print $2 };'
 }
-function gi() { curl http://www.gitignore.io/api/$@ ;}
+
+function gi() { curl -s https://www.gitignore.io/api/$@ ;}
+
+function _update_ps1() {
+    export PS1="$(~/powerline-shell.py --colorize-hostname --shell=bash --mode=compatible $? 2> /dev/null)"
+}

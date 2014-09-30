@@ -4,9 +4,9 @@
 #-------------------------#
 # ENVIRONMENT - LOCALE    #
 #-------------------------#
-export LC_ALL="C"
-export LC_CTYPE=$LC_ALL
-export LC_COLLATE="C"
+export LC_ALL="en_US.UTF-8"
+export LC_CTYPE="$LC_ALL"
+export LC_COLLATE="$LC_ALL"
 
 #-----------------------------#
 # ENVIRONMENT - APPLICATIONS  #
@@ -80,14 +80,14 @@ TAIR10_RELEASE=ftp.arabidopsis.org/Genes/TAIR10_genome_release
 export MACHTYPE="x86_64"
 
 # Amazon EC2 Private Key
-export EC2_PRIVATE_KEY=/usr/local/projects/MTG4/Workshop2013/AWS/jcvi_workshop_2013-$USER.pem
+export EC2_PRIVATE_KEY=/usr/local/projects/MTG4/Workshop2014/AWS/jcvi_workshop_2014-$USER.pem
 
 # PASA
 #export PASAHOME=${MTG4}/packages/PASA2
 export PASAHOME=${ANNOT_DEVEL}/PASA
 
 # Trinity
-export TRINITY_HOME=${MTG4}/packages/trinity-rnaseq
+export TRINITY_HOME=${AIP_HOME}/local/packages/trinityrnaseq
 
 # JBrowse
 export JBROWSE=${MTG4}/packages/JBrowse-current
@@ -111,25 +111,29 @@ if [[ "${HOSTNAME}" == "itchy" ]]; then
     #export BQVERSION="bisque-053"
 
     PATH=${BQROOT}/bin:/usr/local/bin:/usr/local/sbin:${PATH}:{$HOME}/bin
-    LD_LIBRARY_PATH=${PACKAGES}/mysql/lib:${BQROOT}/lib:${PACKAGES}/fftw/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib64:${HOME}/lib
+    LD_LIBRARY_PATH=${PACKAGES}/percona-server/lib:${BQROOT}/lib:${PACKAGES}/fftw/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib64:${HOME}/lib
     PKG_CONFIG_PATH=${BQROOT}/lib/pkgconfig
-    PYTHONPATH=${BQROOT}/lib/python2.7/site-packages:${PACKAGES}/python/lib/python2.7/site-packages
+    PYTHONPATH=${BQROOT}/lib/python2.7/site-packages
     HDF5_DIR=/usr/local/packages/hdf5
 elif [[ "${HOSTNAME}" == "columbia" ]]; then
-    PATH=/opt/admin/bin:${AIP_HOME}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin:${PATH}
+    PATH=/opt/admin/bin:${AIP_HOME}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
     LD_LIBRARY_PATH=${AIP_HOME}/local/lib:/opt/www/araport/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib:${HOME}/lib
     PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:/home/htang/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages
     PERL5LIB=${AIP_HOME}/local/lib
 else
     # PATH
-    PATH=${AIP_HOME}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${BLASTPLUS}:/usr/local/bin:/usr/local/sbin:${MAKER_HOME}/bin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}
+    PATH=${AIP_HOME}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/.gem/ruby/1.9.1/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:${BLASTPLUS}:/usr/local/bin:/usr/local/sbin:${MAKER_HOME}/bin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
     PATH=${PATH}:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 
     # LD_LIBRARY_PATH
     LD_LIBRARY_PATH=${AIP_HOME}/local/lib:/export/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
 
     # PYTHONPATH
-    PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:/home/htang/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages
+    PYTHONPATH=${HOME}/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:/home/htang/lib/python2.7/site-packages:${HOME}/lib/python2.6/site-packages:${MTG4}/packages/clean_reads
+
+    # clean_reads and seq_crumbs
+    CLEAN_READS=${MTG4}/packages/clean_reads
+    SEQ_CRUMBS=${MTG4}/packages/seq_crumbs
 
     # PERL5LIB
     #PERL5LIB=${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
@@ -138,9 +142,8 @@ else
     # PKG_CONFIG_PATH
     PKG_CONFIG_PATH=/usr/lib/pkgconfig:${PACKAGES}/glib/lib/pkgconfig
 
-    # ANT_OPTS and JAVA_OPTS
+    # ANT_OPTS
     export ANT_OPTS="-server -XX:MaxPermSize=256M -Xmx1700m -XX:+UseParallelGC -Xms700m -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99"
-    #export JAVA_OPTS="-server -Xms1024M -Xmx3072M -Dorg.apache.el.parser.SKIP_IDENTIFIER_CHECK=true -XX:MaxPermSize=256M -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99"
 
     ## CHADO
     export GMOD_ROOT=/usr/local/projects/AIP/vkrishna/gmod
@@ -168,7 +171,7 @@ export CVSROOT=":ext:${USER}@cvs.jcvi.org:/usr/local/src/cvsroot"
 
 # use sybase
 export SYBASE=${PACKAGES}/sybase
-export LANG=en_US.UTF-8
+export LANG="en_US.UTF-8"
 export DSQUERY="SYBPROD"
 
 # EVM
@@ -200,8 +203,8 @@ export BOOST_ROOT=${PACKAGES}/boost
 export OMP_NUM_THREADS=64
 
 # MYSQL
-export MYSQLINC=${PACKAGES}/mysql/include/mysql
-export MYSQLLIBS="${PACKAGES}/mysql/lib/mysql/libmysqlclient.a -lz"
+export MYSQLINC=${PACKAGES}/percona-server/include/mysql
+export MYSQLLIBS="${PACKAGES}/percona-server/lib/mysql/libperconaserverclient.a -lz"
 
 # use shell
 ulimit -s unlimited >& /dev/null
@@ -216,10 +219,11 @@ if [[ ${HOSTNAME} != "itchy" ]]; then
     SGE=/usr/local/sge_current/jcvi/common/settings.sh
     WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
     JAVA160=/usr/local/common/env/java6.sh
+    JAVA170=/usr/local/common/env/java7.sh
     GITCOMP=${HOME}/.git-completion.sh
     ICMDS=~/.i-commands-auto.bash
 
-    declare -a ENVVARS=(SGE WORKFLOW JAVA160 GITCOMP ICMDS)
+    declare -a ENVVARS=(SGE WORKFLOW JAVA170 GITCOMP ICMDS)
     for i in ${ENVVARS[@]}; do
         eval ENVVAR=\$$i
         if [ -r "$ENVVAR" ]; then
