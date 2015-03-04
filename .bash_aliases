@@ -64,7 +64,7 @@ alias grepg='grep -P "\s+gene\s+\d+\s+\d+\s+"'
 
 # usepackage derived aliases
 alias prmenu='source /usr/local/common/prmenu/prmenu.sh'
-alias print='enscript -2r -h'
+alias print='enscript -1R -h'
 alias rprint='enscript -r -fCourier6'
 alias lpr='lpr -h'
 alias lpr2='lpr -o sides=two-sided-long-edge'
@@ -89,7 +89,7 @@ alias entrez='python -m jcvi.apps.entrez'
 alias grid='python -m jcvi.apps.grid'
 alias join='python -m jcvi.formats.base join'
 alias setop='python -m jcvi.formats.base setop'
-alias waitpid='python -m jcvi.apps.base waitpid --notify=pushover'
+alias waitpid='python -m jcvi.apps.base waitpid --notify=pushbullet --interval=10'
 
 # grid aliases
 alias qsub="qsub -P ${PCODE}"
