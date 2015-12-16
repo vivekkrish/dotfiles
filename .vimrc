@@ -27,13 +27,11 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'elzr/vim-json'
-
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
-" plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-Bundle 'morhetz/gruvbox'
-Bundle 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'chrisbra/changesPlugin'
+Plugin 'ervandew/supertab'
+Plugin 'davidhalter/jedi-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -90,7 +88,6 @@ set statusline+=%-3.3n\                      " buffer number
 set statusline+=%f\                          " filename
 set statusline+=%h%m%r%w                     " status flags
 set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type
-set statusline+=\ %{fugitive#statusline()}     " indicate current git branch
 set statusline+=%=                           " right align remainder
 set statusline+=0x%-8B                       " character value
 set statusline+=%-14(%l,%c%V%)               " line,  character
@@ -119,6 +116,7 @@ set ruler
 " Various settings
 "-------------------------------------------------------------------------------
 " Search
+"set number     " show line numbers
 set wrapscan   " search wrap around the end of the file
 set ignorecase " ignore case search
 set smartcase  " override 'ignorecase' if the search pattern contains upper case
@@ -336,4 +334,14 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel
 " Use shift-H and shift-L for move to beginning/end
 nnoremap H 0
 nnoremap L $
-
+" Powerline for vim
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+"""""""""""""""""""""""""""""""""""""""""
+" Add keymappings to switch between vim panes
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+""""""""""""""""""""""""""""""""""""""""""
