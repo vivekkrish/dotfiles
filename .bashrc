@@ -88,8 +88,8 @@ shopt -s histreedit
 export HISTCONTROL=ignorespace:erasedups    # ignore space and erase duplicate entries
 
 # big big history
-export     HISTSIZE=50000
-export HISTFILESIZE=100000
+export     HISTSIZE="NOTHING"
+export HISTFILESIZE="NOTHING"
 #export HISTTIMEFORMAT="%Y%m%d %H:%M:%S "
 
 # make bash append the history rather than overwrite it
@@ -101,44 +101,44 @@ export HISTIGNORE="&:ls:[bf]g:exit:ll:la:l:cd:pwd:su:df:clear:cd ..:history"
 # Set the prompt command
 PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} - ${PWD/#$HOME/~}"; echo -ne "\007"'
 
+## set up the PS1 via powershell
+#PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+
 # Save and reload the history after each command finishes
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND ;} history -a; history -c; history -r"
 
-# set up the PS1 via powershell
-export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+# Set the prompt PS1 variable
+colors="${HOME}/.colors.bash"
+if [[ -a $colors ]] ; then source $colors ; fi
 
-### Set the prompt PS1 variable
-##colors="${HOME}/.colors.bash"
-##if [[ -a $colors ]] ; then source $colors ; fi
-##
-### prompt and colors
-##if [ "$PS1" ] ; then
-##    # Add colors to grep
-##    export GREP_OPTIONS='--color=auto'
-##    export GREP_COLOR='1;32'
-##
-##    # MySQL prompt
-##    export MYSQL_PS1='\u@\h \d \c> '
-##
-##    # git branch dirty state
-##    #source /etc/bash_completion.d/git
-##    #export GIT_PS1_SHOWDIRTYSTATE="true"
-##    #export GIT_PS1_SHOWUPSTREAM="auto"
-##    #git=\"\$(__git_ps1 \"(\[$Green\]%s\[$Reset\])\[$Yellow\]\$(__git_dirty)\[$Reset\] \")\"
-##    prompt="
-##    status=\$?
-##
-##    timestamp='\[[$Magenta\]\d \t]\[$Reset\]'
-##    user='\[$BIBlue\]\u\[$Reset\]'
-##    host='\[$Yellow\]\h\[$Reset\]'
-##    cwd='\[$Cyan\]\w\[$Reset\]'
-##
-##    prompt=\"\n\${timestamp}\n\${user}@\${host} \${cwd}\n\$ \"
-##
-##    echo -e \"\${prompt}\"
-##    "
-##    export PS1="\$(${prompt})"
-##fi
+# prompt and colors
+if [ "$PS1" ] ; then
+    # Add colors to grep
+    export GREP_OPTIONS='--color=auto'
+    export GREP_COLOR='1;32'
+
+    # MySQL prompt
+    export MYSQL_PS1='\u@\h \d \c> '
+
+    # git branch dirty state
+    #source /etc/bash_completion.d/git
+    #export GIT_PS1_SHOWDIRTYSTATE="true"
+    #export GIT_PS1_SHOWUPSTREAM="auto"
+    #git=\"\$(__git_ps1 \"(\[$Green\]%s\[$Reset\])\[$Yellow\]\$(__git_dirty)\[$Reset\] \")\"
+    prompt="
+    status=\$?
+
+    timestamp='\[[$Magenta\]\d \t]\[$Reset\]'
+    user='\[$BIBlue\]\u\[$Reset\]'
+    host='\[$Yellow\]\h\[$Reset\]'
+    cwd='\[$Cyan\]\w\[$Reset\]'
+
+    prompt=\"\n\${timestamp}\n\${user}@\${host} \${cwd}\n\$ \"
+
+    echo -e \"\${prompt}\"
+    "
+    export PS1="\$(${prompt})"
+fi
 
 ####################################################################
 # Bash Completion.

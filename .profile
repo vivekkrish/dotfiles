@@ -69,7 +69,7 @@ export CURRENT=${MTG4}/A17/Current_annotation
 # AIP specific paths
 export AIP_PCODE=0611
 export AIP=${PROJECTS}/${AIP_PCODE}/projects/AIP
-source $AIP/DataProviders/TAIR/araport.env
+#source $AIP/DataProviders/TAIR/araport.env
 
 # machtype
 export MACHTYPE="x86_64"
@@ -94,6 +94,9 @@ export BLASTPLUS=${PACKAGES}/ncbi-blast+
 export MAKER_HOME=${AIP}/local/packages/maker
 export MPICH_HOME=${AIP}/local/packages/mpich-install
 
+# BEDTOOLS
+export BEDTOOLS=${PACKAGES}/bedtools
+
 # AUGUSTUS
 export AUGUSTUS_CONFIG_PATH=${PACKAGES}/augustus/config
 
@@ -112,17 +115,17 @@ if [[ "${HOSTNAME}" == "itchy" ]]; then
     PYTHONPATH=${BQROOT}/lib/python2.7/site-packages
     HDF5_DIR=/usr/local/packages/hdf5
 elif [[ "${HOSTNAME}" == "columbia" ]]; then
-    PATH=/opt/admin/bin:${AIP}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
+    PATH=/opt/admin/bin:${AIP}/bin:${AIP}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
     LD_LIBRARY_PATH=${AIP}/local/lib:/opt/www/araport/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib:${HOME}/lib
     PYTHONPATH=${AIP}/vkrishna/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages
-    PERL5LIB=${AIP}/local/lib
+    PERL5LIB=/opt/www/araport/lib:${AIP}/local/lib
 else
     # PATH
-    PATH=${MAKER_HOME}/bin:${MPICH_HOME}/bin:${BLASTPLUS}/bin:${AIP}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/.gem/ruby/1.9.1/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:/usr/local/sbin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
+    PATH={$BEDTOOLS}/bin:${MAKER_HOME}/bin:${MPICH_HOME}/bin:${BLASTPLUS}/bin:${AIP}/bin:${AIP}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/.gem/ruby/1.9.1/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:/usr/local/sbin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
     PATH=${PATH}:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 
     # LD_LIBRARY_PATH
-    LD_LIBRARY_PATH=/usr/local/packages/percona-server/lib:${AIP}/local/lib:/export/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
+    LD_LIBRARY_PATH=/usr/local/packages/percona-server/lib:${AIP}/local/lib:/export/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/atlas/lib:${PACKAGES}/boost/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
 
     # PYTHONPATH
     PYTHONPATH=${AIP}/vkrishna/git:${AIP}/local/lib/python2.7/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:${MTG4}/packages/clean_reads
@@ -140,7 +143,7 @@ else
 
     # ANT_HOME and ANT_OPTS
     export ANT_HOME=${AIP}/local/packages/apache-ant
-    export ANT_OPTS="-server -Xms1700m -Xmx6g -XX:MaxPermSize=256M -XX:+UseParallelGC -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99"
+    export ANT_OPTS="-server -XX:MaxPermSize=256M -Xmx6g -XX:+UseParallelGC -Xms1700m -XX:SoftRefLRUPolicyMSPerMB=1 -XX:MaxHeapFreeRatio=99"
     PATH=${ANT_HOME}/bin:${PATH}
 
     ## CHADO
@@ -203,6 +206,18 @@ export OMP_NUM_THREADS=64
 # MYSQL
 export MYSQLINC=${PACKAGES}/percona-server/include/mysql
 export MYSQLLIBS="${PACKAGES}/percona-server/lib/mysql/libperconaserverclient.a -lz"
+
+# NCBI
+export TBL2ASN=/usr/local/packages/tbl2asn/bin
+export ASNDISC=/usr/local/packages/asndisc/bin
+export ASNVAL=/usr/local/packages/asnval/bin
+export SEQUIN=/usr/local/packages/sequin
+
+export PATH=${TBL2ASN}:${ASNDISC}:${ASNVAL}:${SEQUIN}:$PATH
+
+# ADAMA env variables
+export ARAPORT=https://api.araport.org
+export ADAMA=$ARAPORT/community/v0.3
 
 # use shell
 ulimit -s unlimited >& /dev/null

@@ -89,6 +89,7 @@ alias entrez='python -m jcvi.apps.entrez'
 alias grid='python -m jcvi.apps.grid'
 alias join='python -m jcvi.formats.base join'
 alias setop='python -m jcvi.formats.base setop'
+alias flatten='python -m jcvi.formats.base flatten'
 alias waitpid='python -m jcvi.apps.base waitpid --notify=pushbullet --interval=10'
 
 # grid aliases
@@ -105,3 +106,7 @@ alias lserver="ssh lserver1.jcvi.org"
 
 # reset `which` alias
 #alias which='/usr/bin/which'
+
+# misc aliases
+alias add='paste -sd+ - | bc'
+alias gtgff3='gt gff3 -sort -tidy -retainids -checkids yes -addids no'
