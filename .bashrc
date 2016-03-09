@@ -121,10 +121,17 @@ if [ "$PS1" ] ; then
     export MYSQL_PS1='\u@\h \d \c> '
 
     # git branch dirty state
-    #source /etc/bash_completion.d/git
-    #export GIT_PS1_SHOWDIRTYSTATE="true"
-    #export GIT_PS1_SHOWUPSTREAM="auto"
-    #git=\"\$(__git_ps1 \"(\[$Green\]%s\[$Reset\])\[$Yellow\]\$(__git_dirty)\[$Reset\] \")\"
+    export GIT_PS1_SHOWDIRTYSTATE="true"
+
+    export GIT_STATE='$(
+    if [[ $(__git_ps1) =~ \*\)$ ]]
+        then echo "'$BYellow'"$(__git_ps1 " (%s) ")
+    elif [[ $(__git_ps1) =~ \+\)$ ]]
+        then echo "'$BPurple'"$(__git_ps1 " (%s) ")
+    else
+        echo "'$BCyan'"$(__git_ps1 " (%s) ")
+    fi)'
+
     prompt="
     status=\$?
 
@@ -133,7 +140,7 @@ if [ "$PS1" ] ; then
     host='\[$Yellow\]\h\[$Reset\]'
     cwd='\[$Cyan\]\w\[$Reset\]'
 
-    prompt=\"\n\${timestamp}\n\${user}@\${host} \${cwd}\n\$ \"
+    prompt=\"\n\${timestamp}\n\${user}@\${host}${GIT_STATE} \${cwd}\n\$ \"
 
     echo -e \"\${prompt}\"
     "

@@ -234,10 +234,11 @@ if [[ ${HOSTNAME} != "itchy" ]]; then
     JAVA160=/usr/local/common/env/java6.sh
     #JAVA170=/usr/local/common/env/java7.sh
     JAVA170=${HOME}/env/java7.sh
-    GITCOMP=${HOME}/.git-completion.sh
+    GITCOMP=${HOME}/.git-completion.bash
+    GITPROMPT=${HOME}/.git-prompt.sh
     ICMDS=${HOME}/.i-commands-auto.bash
 
-    declare -a ENVVARS=(SGE WORKFLOW JAVA170 GITCOMP ICMDS)
+    declare -a ENVVARS=(SGE WORKFLOW JAVA170 GITCOMP GITPROMPT ICMDS)
     for i in ${ENVVARS[@]}; do
         eval ENVVAR=\$$i
         if [ -r "$ENVVAR" ]; then
