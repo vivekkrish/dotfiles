@@ -56,10 +56,12 @@ export PROJECTS=/usr/local/projdata
 
 # Medicago/Annotation specific
 export MTG_PCODE=0372
+export LEG_PCODE=0689
 #export MTG3=${PROJECTS}/${MTG_PCODE}/projects/MTG3
 export MTG4=${PROJECTS}/${MTG_PCODE}/projects/MTG4
 export CURRENT=${MTG4}/A17/Current_annotation
 #export MTA4=/usr/local/annotation/MTA4
+export LEGUME=${PROJECTS}/${LEG_PCODE}/projects/LEGUME
 
 # Other annotation projects
 #export BOG=${PROJECTS}/BOG
@@ -109,26 +111,26 @@ if [[ "${HOSTNAME}" == "itchy" ]]; then
     export BQROOT=/opt/www/maize-bisque
     #export BQVERSION="bisque-053"
 
-    PATH=${BQROOT}/bin:/usr/local/bin:/usr/local/sbin:${PATH}:{$HOME}/bin
-    LD_LIBRARY_PATH=${PACKAGES}/percona-server/lib:${BQROOT}/lib:${PACKAGES}/fftw/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib64:${HOME}/lib
+    PATH=/opt/software/php/bin:/opt/www/MTGD/drush:${BQROOT}/bin:/usr/local/bin:/usr/local/sbin:${PATH}:${HOME}/bin
+    LD_LIBRARY_PATH=${PACKAGES}/postgresql/lib:${PACKAGES}/percona-server/lib:${BQROOT}/lib:${PACKAGES}/fftw/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/python/lib:/usr/local/lib64:${HOME}/lib
     PKG_CONFIG_PATH=${BQROOT}/lib/pkgconfig
     PYTHONPATH=${BQROOT}/lib/python2.7/site-packages
     HDF5_DIR=/usr/local/packages/hdf5
 elif [[ "${HOSTNAME}" == "columbia" ]]; then
     PATH=/opt/admin/bin:${AIP}/bin:${AIP}/local/bin:/opt/www/araport/bin:/usr/local/bin:/usr/local/sbin:${HOME}/bin:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
-    LD_LIBRARY_PATH=${AIP}/local/lib:/opt/www/araport/lib:${PACKAGES}/gcc-4.7.1/lib64:${PACKAGES}/python/lib:/usr/local/lib:${HOME}/lib
+    LD_LIBRARY_PATH=${AIP}/local/lib:/opt/www/araport/lib:${PACKAGES}/postgresql/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/python/lib:/usr/local/lib:${HOME}/lib
     PYTHONPATH=${AIP}/vkrishna/git:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages
     PERL5LIB=/opt/www/araport/lib:${AIP}/local/lib
 else
     # PATH
-    PATH={$BEDTOOLS}/bin:${MAKER_HOME}/bin:${MPICH_HOME}/bin:${BLASTPLUS}/bin:${AIP}/bin:${AIP}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/.gem/ruby/1.9.1/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:/usr/local/sbin:${MTG4}/local/bin:/usr/local/genome/bin:/usr/local/common:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
+    PATH=${BEDTOOLS}/bin:${MAKER_HOME}/bin:${MPICH_HOME}/bin:${BLASTPLUS}/bin:${MTG4}/local/bin:${AIP}/bin:${AIP}/local/bin:/export/apache2/bin:/export/php/bin:/export/bin:${HOME}/.gem/ruby/1.9.1/bin:${HOME}/bin/eval:${HOME}/bin/icommands:${HOME}/.perl-shell:${HOME}/bin/${MACHTYPE}:${HOME}/.local/bin:${HOME}/bin:${EGC_SCRIPTS}:${EGC_UTILITIES}:${EUK_MODULES}:/usr/local/bin:/usr/local/sbin:/usr/local/genome/bin:/usr/local/common:${PATH}:/usr/local/projects/AIP/vkrishna/git/foundation-cli/bin
     PATH=${PATH}:/home/sgeworker/bin:/usr/sbin:/sbin:/opt/real/RealPlayer
 
     # LD_LIBRARY_PATH
-    LD_LIBRARY_PATH=/usr/local/packages/percona-server/lib:${AIP}/local/lib:/export/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/atlas/lib:${PACKAGES}/boost/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64:${MTG4}/local/lib
+    LD_LIBRARY_PATH=${PACKAGES}/postgresql/lib:${PACKAGES}/percona-server/lib:${MTG4}/local/lib:${AIP}/local/lib:/export/lib:${PACKAGES}/gcc/lib64:${PACKAGES}/samtools/lib:${PACKAGES}/bzip2/lib:${PACKAGES}/python/lib:${PACKAGES}/atlas/lib:${PACKAGES}/boost/lib:${PACKAGES}/sybase/OCS/lib:/usr/local/lib:${HOME}/lib:/usr/lib64
 
     # PYTHONPATH
-    PYTHONPATH=${AIP}/vkrishna/git:${AIP}/local/lib/python2.7/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:${MTG4}/packages/clean_reads
+    PYTHONPATH=${AIP}/vkrishna/git:${AIP}/local/lib/python2.7/site-packages:${HOME}/.local/lib/python2.7/site-packages:${PACKAGES}/python/lib/python2.7/site-packages:${HOME}/lib/python2.7/site-packages:${MTG4}/packages/clean_reads
 
     # clean_reads and seq_crumbs
     CLEAN_READS=${MTG4}/packages/clean_reads
@@ -136,7 +138,7 @@ else
 
     # PERL5LIB
     #PERL5LIB=${HOME}/lib:${HOME}/lib/eval:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
-    PERL5LIB=${AIP}/local/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
+    PERL5LIB=${MTG4}/local/lib:${AIP}/local/lib:${HOME}/git.local/jcvi/db/lib:${EUK_MODULES}:${EGC_SCRIPTS}
 
     # PKG_CONFIG_PATH
     PKG_CONFIG_PATH=/usr/lib/pkgconfig:${PACKAGES}/glib/lib/pkgconfig
@@ -147,7 +149,7 @@ else
     PATH=${ANT_HOME}/bin:${PATH}
 
     ## CHADO
-    export GMOD_ROOT=/usr/local/projects/AIP/vkrishna/gmod
+    export GMOD_ROOT=${MTG4}/vkrishna/gmod
     export CHADO_DB_NAME=chadotest1
     export CHADO_DB_USERNAME=vkrishna
     export CHADO_DB_PASSWORD=vkrishna9
@@ -225,31 +227,34 @@ ulimit -Sc 0 >& /dev/null
 umask 002
 
 # Import custom ENV
-if [[ ${HOSTNAME} != "itchy" ]]; then
-    export PCODE="0372"
-    export EMAIL="vkrishna@jcvi.org"
+export PCODE="0372"
+export EMAIL="vkrishna@jcvi.org"
 
-    SGE=/usr/local/sge_current/jcvi/common/settings.sh
-    WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
-    JAVA160=/usr/local/common/env/java6.sh
-    #JAVA170=/usr/local/common/env/java7.sh
-    JAVA170=${HOME}/env/java7.sh
-    GITCOMP=${HOME}/.git-completion.bash
-    GITPROMPT=${HOME}/.git-prompt.sh
-    ICMDS=${HOME}/.i-commands-auto.bash
+SGE=/usr/local/sge_current/jcvi/common/settings.sh
+WORKFLOW=${ANNOT_DEVEL}/workflow-3.1.3/exec_env.bash
+JAVA160=/usr/local/common/env/java6.sh
+#JAVA170=/usr/local/common/env/java7.sh
+JAVA170=${HOME}/env/java7.sh
+GITCOMP=${HOME}/.git-completion.bash
+GITPROMPT=${HOME}/.git-prompt.sh
+ICMDS=${HOME}/.i-commands-auto.bash
 
-    declare -a ENVVARS=(SGE WORKFLOW JAVA170 GITCOMP GITPROMPT ICMDS)
-    for i in ${ENVVARS[@]}; do
-        eval ENVVAR=\$$i
-        if [ -r "$ENVVAR" ]; then
-            if [ "$PS1" ]; then
-                . "$ENVVAR"
-            else
-                . "$ENVVAR" >/dev/null 2>&1
-            fi
+declare -a ENVVARS=(SGE WORKFLOW JAVA170 GITCOMP GITPROMPT ICMDS)
+for i in ${ENVVARS[@]}; do
+    eval ENVVAR=\$$i
+    if [ -r "$ENVVAR" ]; then
+        if [ "$PS1" ]; then
+            . "$ENVVAR"
+        else
+            . "$ENVVAR" >/dev/null 2>&1
         fi
-    done
-fi
+    fi
+done
+
+# LinuxBrew
+export PATH="$HOME/.linuxbrew/bin:$PATH"
+export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 
 # MANPATH
 MANPATH=${HOME}/share/man:/usr/local/common/man:${MANPATH}
@@ -259,9 +264,10 @@ export MANPATH
 # enable autojump
 [[ -s /home/vkrishna/.autojump/etc/profile.d/autojump.sh ]] && source /home/vkrishna/.autojump/etc/profile.d/autojump.sh
 
+# setting required for GPG
+export GPG_TTY=$(tty)
+
 #-------------------------#
 # SHELL - CHECK TYPE      #
 #-------------------------#
 #[[ $- != *i* ]] && return
-
-
