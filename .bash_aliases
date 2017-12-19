@@ -90,7 +90,7 @@ alias grid='python -m jcvi.apps.grid'
 alias join='python -m jcvi.formats.base join'
 alias setop='python -m jcvi.formats.base setop'
 alias flatten='python -m jcvi.formats.base flatten'
-alias waitpid='python -m jcvi.apps.base waitpid --notify=pushbullet --interval=10'
+alias waitpid='python -m jcvi.apps.base waitpid --interval=10'
 
 # grid aliases
 alias qsub="qsub -P ${PCODE}"

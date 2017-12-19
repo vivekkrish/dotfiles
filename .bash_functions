@@ -185,6 +185,24 @@ hget() {
 
 function gi() { curl -s https://www.gitignore.io/api/$@ ;}
 
-function _update_ps1() {
-    export PS1="$(~/powerline-shell.py --colorize-hostname --shell=bash --mode=compatible $? 2> /dev/null)"
+trouble() { qlogin -P 0611 -l trouble -l hostname=$@ ;}
+
+function adama() {
+    export ADAMA=https://api.araport.org/community/v0.3
+    http "$@" Authorization:"Bearer $TOKEN"
+}
+
+function transfer() {
+    if [ $# -eq 0 ]; then
+        echo "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md";
+        return 1;
+    fi
+    tmpfile=$( mktemp -t transferXXX );
+    if tty -s; then
+        basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g');
+        curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile;
+    else
+        curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ;
+    fi;
+    cat $tmpfile; rm -f $tmpfile;
 }
